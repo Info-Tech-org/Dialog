@@ -1,0 +1,78 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Conda
+.conda/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Audio files
+data/audio/*.wav
+data/audio/*.mp3
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/package-lock.json
+frontend/yarn.lock
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+nul
+
+# Sensitive files
+server_password.md
+apikey.md
+deploy/.env
+tools/config.json
+
+# Large / temp files
+*.tar.gz
+*.zip
+*.m4a
+*.mp3
+*.wav
+temp_routes.b64
+ffmpeg-*/
+
+# Build artifacts
+backend/data/
+backend/venv/
+
+# Mobile
+mobile/node_modules/
+
+# Non-code directories
+claude-info-tech-history/
+evidence/
+multimodal-escalation/
+MindMap/
+remote-executor/
+backendapiingest_routes.py

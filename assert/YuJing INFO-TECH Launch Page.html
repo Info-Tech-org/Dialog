@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>语镜 INFO-TECH — Dialog Safety Infra</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #05050a;
+      --bg-elevated: #0d0d11;
+      --bg-card: #111118;
+      --bg-card-hover: #181823;
+      --border: #262630;
+      --border-light: #32323d;
+      --text-primary: #f5f5f7;
+      --text-secondary: #a1a1b3;
+      --text-tertiary: #71717f;
+      --accent: #9ef6d4;
+      --accent-dim: rgba(158, 246, 212, 0.16);
+      --accent-glow: rgba(158, 246, 212, 0.12);
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --font-sans: 'DM Sans', 'Noto Sans SC', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-cn: 'Noto Sans SC', system-ui, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(circle at top left, #2b2a25 0, transparent 65%),
+        linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+        radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.15) 0, transparent 55%);
+      background-size:
+        100% 100%,
+        80px 80px,
+        80px 80px,
+        2px 2px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      cursor: none;
+      position: relative;
+    }
+
+    /* ===== Light Theme Overrides ===== */
+    .theme-light {
+      background-color: #f5f5f7;
+      background-image:
+        radial-gradient(circle at top left, #ffffff 0, transparent 60%),
+        linear-gradient(to right, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+        radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.2) 0, transparent 55%);
+      background-size:
+        100% 100%,
+        80px 80px,
+        80px 80px,
+        2px 2px;
+      color: #111827;
+    }
+
+    .theme-light nav {
+      background: rgba(248, 250, 252, 0.96);
+      border-bottom-color: rgba(209, 213, 219, 0.9);
+    }
+
+    .theme-light .logo-1nfotech {
+      color: #111827;
+    }
+
+    .theme-light .badge-text {
+      color: #4b5563;
+    }
+
+    .theme-light .badge-text strong {
+      color: #111827;
+    }
+
+    .theme-light .hero-headline .cn {
+      color: #111827;
+    }
+
+    .theme-light .hero-headline .en {
+      color: #4b5563;
+    }
+
+    .theme-light .hero-sub {
+      color: #4b5563;
+    }
+
+    .theme-light .hero-sub strong,
+    .theme-light .tech-text strong {
+      color: #111827;
+    }
+
+    .theme-light .section-title {
+      color: #111827;
+    }
+
+    .theme-light .btn-primary {
+      background: #111827;
+      color: #f9fafb;
+      box-shadow:
+        0 10px 25px rgba(15, 23, 42, 0.25),
+        0 0 0 0.5px rgba(15, 23, 42, 0.3);
+    }
+
+    .theme-light .btn-secondary {
+      background: rgba(255, 255, 255, 0.85);
+      color: #111827;
+      border-color: rgba(15, 23, 42, 0.3);
+    }
+
+    .theme-light .footer-text,
+    .theme-light .footer-link {
+      color: #4b5563;
+    }
+
+    /* Light theme content surfaces */
+    .theme-light .stats-bar .stats-inner {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-color: rgba(209, 213, 219, 0.9);
+    }
+
+    .theme-light .stat-item {
+      border-right-color: rgba(209, 213, 219, 0.7);
+    }
+
+    .theme-light .stat-item:hover {
+      background-color: rgba(249, 250, 251, 0.95);
+    }
+
+    .theme-light .stat-label {
+      color: #6b7280;
+    }
+
+    .theme-light .stat-value {
+      color: #111827;
+    }
+
+    .theme-light .pipeline {
+      background-color: rgba(229, 231, 235, 0.9);
+    }
+
+    .theme-light .pipeline-step {
+      background-color: rgba(255, 255, 255, 0.96);
+    }
+
+    .theme-light .pipeline-step:hover {
+      background-color: rgba(249, 250, 251, 0.96);
+    }
+
+    .theme-light .step-num {
+      color: #9ca3af;
+    }
+
+    .theme-light .step-desc {
+      color: #4b5563;
+    }
+
+    .theme-light .scenario-grid,
+    .theme-light .roadmap {
+      background-color: rgba(229, 231, 235, 0.9);
+    }
+
+    .theme-light .scenario-card,
+    .theme-light .roadmap-phase {
+      background-color: rgba(255, 255, 255, 0.96);
+    }
+
+    .theme-light .scenario-card p,
+    .theme-light .roadmap-phase .phase-desc {
+      color: #4b5563;
+    }
+
+    .theme-light .section-desc {
+      color: #4b5563;
+    }
+
+    /* ===== Custom Cursor ===== */
+    .custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(1);
+      transition:
+        transform 0.12s ease-out,
+        opacity 0.25s ease-out;
+      background: rgba(255, 255, 255, 0.9);
+      mix-blend-mode: difference;
+      z-index: 10000;
+      opacity: 0;
+    }
+
+    .custom-cursor--visible {
+      opacity: 1;
+    }
+
+    .custom-cursor--active {
+      transform: translate(-50%, -50%) scale(0.65);
+    }
+
+    /* ===== Page Frame ===== */
+    .page-frame {
+      position: fixed;
+      inset: 6px;
+      border: 1px solid var(--border);
+      pointer-events: none;
+      z-index: 9999;
+      border-radius: 2px;
+    }
+
+    /* ===== Navigation ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 14px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(20px);
+      background: rgba(43, 42, 37, 0.96);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-link {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-family: var(--font-mono);
+      letter-spacing: 0.5px;
+      line-height: 1;
+    }
+
+    .theme-toggle {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(15, 15, 20, 0.5);
+      color: #eae8e1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(30, 64, 175, 0.6);
+      border-color: rgba(191, 219, 254, 0.9);
+      box-shadow: 0 0 0 1px rgba(191, 219, 254, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .theme-light .theme-toggle {
+      background: rgba(255, 255, 255, 0.85);
+      color: #111827;
+      border-color: rgba(148, 163, 184, 0.8);
+      box-shadow: 0 6px 18px rgba(148, 163, 184, 0.35);
+    }
+
+    .theme-icon {
+      width: 16px;
+      height: 16px;
+      display: block;
+      position: relative;
+    }
+
+    .theme-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .theme-toggle--light .theme-icon-moon {
+      display: none;
+    }
+
+    .theme-toggle--light .theme-icon-sun {
+      display: block !important;
+    }
+
+    .theme-icon-moon {
+      display: block;
+    }
+
+    .theme-icon-sun {
+      display: none;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-cta {
+      height: 32px;
+      padding: 0 18px;
+      background: var(--text-primary);
+      color: var(--bg);
+      border: none;
+      border-radius: 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 160px 48px 120px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px;
+      background: rgba(15, 15, 20, 0.6);
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 40px;
+      width: fit-content;
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.7),
+        0 0 0 0.5px rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(24px);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--accent-dim); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
+    }
+
+    .badge-text {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .badge-text strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .hero-headline {
+      font-size: clamp(54px, 6.8vw, 96px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin-bottom: 32px;
+      max-width: 900px;
+      text-rendering: geometricPrecision;
+    }
+
+    .hero-headline .cn {
+      font-family: var(--font-cn);
+      display: block;
+      letter-spacing: -1.2px;
+      color: #f5f5f7;
+    }
+
+    .hero-headline .en {
+      display: block;
+      font-size: 0.5em;
+      color: var(--text-secondary);
+      letter-spacing: 0.16em;
+      margin-top: 16px;
+      font-weight: 500;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .hero-headline .en-italic {
+      font-style: italic;
+      text-transform: none;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      line-height: 1.85;
+      color: #a0a0ae;
+      max-width: 640px;
+      margin-bottom: 48px;
+    }
+
+    .hero-sub strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    /* Physical Buttons */
+    .btn {
+      height: 52px;
+      padding: 0 32px;
+      border: none;
+      border-radius: 26px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: #f5f5f7;
+      color: #05050a;
+      box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.35),
+        0 0 0 0.5px rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1.5px);
+      box-shadow:
+        0 14px 35px rgba(0, 0, 0, 0.45),
+        0 0 0 0.6px rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.5),
+        0 0 0 0.4px rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.45);
+      transform: translateY(-1.5px);
+    }
+
+    .btn-secondary:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ===== Stats Bar ===== */
+    .stats-bar {
+      padding: 0 48px;
+      margin-bottom: 160px;
+    }
+
+    .stats-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .stat-item {
+      padding: 32px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+
+    .stat-item:last-child {
+      border-right: none;
+    }
+
+    .stat-item:hover {
+      background: var(--bg-card);
+    }
+
+    .stat-value {
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ===== Section Common ===== */
+    section {
+      padding: 0 48px;
+      margin-bottom: 160px;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-label .num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    .section-label .line {
+      width: 24px;
+      height: 1px;
+      background: var(--border-light);
+    }
+
+    .section-label .text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+    }
+
+    .section-title {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+      max-width: 700px;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 500px;
+      line-height: 1.7;
+      margin-bottom: 64px;
+    }
+
+    /* ===== How It Works ===== */
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .pipeline-step {
+      background: var(--bg-card);
+      padding: 40px 32px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .pipeline-step:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .pipeline-step::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .pipeline-step:hover::after {
+      transform: scaleX(1);
+    }
+
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 48px;
+      font-weight: 600;
+      color: var(--border-light);
+      line-height: 1;
+      margin-bottom: 24px;
+      transition: color 0.3s;
+    }
+
+    .pipeline-step:hover .step-num {
+      color: var(--accent);
+    }
+
+    .step-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .step-name-en {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .step-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .step-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 20px;
+      padding: 6px 12px;
+      background: var(--accent-dim);
+      border-radius: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+    }
+
+    .step-tag svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* ===== Tech Section ===== */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .tech-text {
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+
+    .tech-text strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .tech-text p {
+      margin-bottom: 20px;
+    }
+
+    /* Terminal Device */
+    .terminal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .terminal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red { background: #EF4444; }
+    .terminal-dot.yellow { background: #F59E0B; }
+    .terminal-dot.green { background: #22C55E; }
+
+    .terminal-title {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-left: 8px;
+    }
+
+    .terminal-body {
+      padding: 24px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 2;
+    }
+
+    .terminal-line {
+      display: flex;
+      gap: 12px;
+    }
+
+    .terminal-line .prompt {
+      color: var(--accent);
+      user-select: none;
+    }
+
+    .terminal-line .cmd {
+      color: var(--text-secondary);
+    }
+
+    .terminal-line .output {
+      color: var(--text-tertiary);
+      padding-left: 24px;
+    }
+
+    .terminal-line .highlight {
+      color: var(--accent);
+    }
+
+    .terminal-line .warn {
+      color: var(--warning);
+    }
+
+    .terminal-line .danger {
+      color: var(--danger);
+    }
+
+    /* ===== Scenario Section ===== */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2px;
+      background: var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .scenario-card {
+      background: var(--bg-card);
+      padding: 40px 32px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .scenario-card:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .scenario-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--accent-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      font-size: 24px;
+    }
+
+    .scenario-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .scenario-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .scenario-quote {
+      margin-top: 20px;
+      padding: 16px;
+      background: rgba(239, 68, 68, 0.08);
+      border-left: 2px solid var(--danger);
+      border-radius: 0 8px 8px 0;
+      font-size: 13px;
+      color: var(--danger);
+      font-style: italic;
+    }
+
+    .scenario-resolve {
+      margin-top: 12px;
+      padding: 16px;
+      background: var(--accent-dim);
+      border-left: 2px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      font-size: 13px;
+      color: var(--accent);
+    }
+
+    /* ===== Roadmap ===== */
+    .roadmap {
+      display: flex;
+      gap: 2px;
+      background: var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .roadmap-phase {
+      flex: 1;
+      background: var(--bg-card);
+      padding: 40px 32px;
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .roadmap-phase:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .roadmap-phase.current {
+      border-top: 3px solid var(--accent);
+    }
+
+    .phase-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .phase-status.done {
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    .phase-status.active {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--warning);
+    }
+
+    .phase-status.upcoming {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-tertiary);
+    }
+
+    .phase-status::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .phase-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .phase-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ===== CTA Section ===== */
+    .cta-section {
+      padding: 120px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-headline {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+
+    .cta-headline span {
+      color: var(--accent);
+    }
+
+    .cta-desc {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+
+    .cta-note {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      padding: 32px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--bg);
+      position: relative;
+      z-index: 1;
+    }
+
+    .theme-light footer {
+      background-color: #f5f5f7;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 1NF0TECH logo */
+    .logo-1nfotech {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0;
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #eae8e1;
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .logo-1nfotech .logo-main,
+    .logo-1nfotech .logo-sub {
+      font-weight: inherit;
+      font-size: inherit;
+    }
+
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .footer-link {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-tertiary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover {
+      color: var(--accent);
+    }
+
+    .footer-time {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-time::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1024px) {
+      nav { padding: 16px 24px; }
+      .hero { padding: 140px 24px 80px; }
+      section { padding: 0 24px; margin-bottom: 100px; }
+      .stats-bar { padding: 0 24px; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .pipeline { grid-template-columns: repeat(2, 1fr); }
+      .tech-grid { grid-template-columns: 1fr; }
+      .scenario-grid { grid-template-columns: 1fr; }
+      .roadmap { flex-direction: column; }
+      .cta-section { padding: 80px 24px; }
+      footer { padding: 24px; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      body { cursor: auto; }
+      .custom-cursor { display: none; }
+      .hero-actions { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+      .stats-inner { grid-template-columns: 1fr 1fr; }
+      .pipeline { grid-template-columns: 1fr; }
+      .cta-actions { flex-direction: column; align-items: center; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+      .hero-headline .en { white-space: normal; }
+    }
+  </style>
+</head>
+<body class="theme-dark">
+  <div class="page-frame"></div>
+  <div class="custom-cursor" id="customCursor"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-brand">
+      <div class="nav-logo">
+        <span class="logo-1nfotech">
+          <span class="logo-main">1NF0</span><span class="logo-sub">TECH</span>
+        </span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换到白天模式">
+        <span class="theme-icon" aria-hidden="true">
+          <!-- Moon icon (default) -->
+          <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <!-- Sun icon (light mode) -->
+          <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </span>
+      </button>
+      <a href="#pipeline" class="nav-link">How it works</a>
+      <a href="#tech" class="nav-link">Technology</a>
+      <a href="#roadmap" class="nav-link">Roadmap</a>
+      <button class="nav-cta">Join Waitlist</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      <span class="badge-text">MVP Verified · <strong>User Testing Q1 2025</strong></span>
+    </div>
+    <h1 class="hero-headline">
+      <span class="cn">在伤害成型之前<br>让对话回到安全区</span>
+      <span class="en">Dialog Safety Infra <span class="en-italic">for Families</span></span>
+    </h1>
+    <p class="hero-sub">
+      语镜是一套 <strong>家庭对话语义安全系统</strong>。通过实时音频分析与边缘推理，
+      在语言伤害发生之前识别风险信号，帮助家长觉察、干预、反思。
+    </p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+        加入等待列表
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+      <a href="#pipeline" class="btn btn-secondary">了解工作原理</a>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-value">&lt;200ms</div>
+        <div class="stat-label">Detection Latency</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">Edge</div>
+        <div class="stat-label">On-Device Inference</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">5 Layers</div>
+        <div class="stat-label">Semantic Analysis</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Audio Leaves Device</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pipeline -->
+  <section id="pipeline">
+    <div class="section-label">
+      <span class="num">01</span>
+      <span class="line"></span>
+      <span class="text">Pipeline</span>
+    </div>
+    <h2 class="section-title">四层语义安全管线</h2>
+    <p class="section-desc">
+      从音频采集到AI复盘，每一层都在设备端完成推理，音频数据不离开家庭网络。
+    </p>
+    <div class="pipeline">
+      <div class="pipeline-step">
+        <div class="step-num">01</div>
+        <div class="step-name">采集</div>
+        <div class="step-name-en">Capture</div>
+        <div class="step-desc">零感知麦克风阵列，自动采集家庭对话音频，不改变任何沟通习惯。</div>
+        <div class="step-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          Always-on · Passive
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">02</div>
+        <div class="step-name">识别</div>
+        <div class="step-name-en">Detect</div>
+        <div class="step-desc">自研语义识别算法实时分析语气、语速、关键词，识别危险对话模式。</div>
+        <div class="step-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          &lt;200ms · Real-time
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">03</div>
+        <div class="step-name">干预</div>
+        <div class="step-name-en">Intervene</div>
+        <div class="step-desc">检测到风险信号时，通过触觉振动提醒家长，在冲突激化前平复情绪。</div>
+        <div class="step-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          Haptic · Non-intrusive
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">04</div>
+        <div class="step-name">复盘</div>
+        <div class="step-name-en">Reflect</div>
+        <div class="step-desc">AI生成对话分析报告，标注风险节点，提供沟通改进建议，亲子共同反思。</div>
+        <div class="step-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          AI Report · Actionable
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology -->
+  <section id="tech">
+    <div class="section-label">
+      <span class="num">02</span>
+      <span class="line"></span>
+      <span class="text">Technology</span>
+    </div>
+    <h2 class="section-title">不是录音机，是语义安全层</h2>
+    <p class="section-desc">
+      我们构建的不是监控工具，而是一层透明的对话安全基础设施。
+    </p>
+    <div class="tech-grid">
+      <div class="tech-text">
+        <p>
+          核心是我们 <strong>自研的危险对话模式垂直数据库</strong> —— 
+          不是通用NLP，而是专门针对中文家庭场景训练的语义模型，
+          能识别隐性攻击、冷暴力、情绪升级等微妙信号。
+        </p>
+        <p>
+          我们正在研究 <strong>对话「节奏」与「情绪」的动态建模与向量化</strong> ，
+          将语速变化、停顿模式、音调波动转化为可计算的风险向量。
+        </p>
+        <p>
+          所有推理在 <strong>边缘设备</strong> 完成。音频进来，文本报告出去。
+          没有云端存储，没有第三方访问。
+        </p>
+      </div>
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <span class="terminal-title">yujing-edge — semantic_analysis.log</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line">
+            <span class="prompt">▸</span>
+            <span class="cmd">initializing edge inference engine...</span>
+          </div>
+          <div class="terminal-line">
+            <span class="output highlight">✓ model loaded: yujing-semantic-v3.2</span>
+          </div>
+          <div class="terminal-line">
+            <span class="output highlight">✓ pattern database: 12,847 entries</span>
+          </div>
+          <div class="terminal-line">
+            <span class="output">listening on audio_stream_0...</span>
+          </div>
+          <div class="terminal-line">
+            <span class="output">━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+          </div>
+          <div class="terminal-line">
+            <span class="output">[18:42:03] tone_shift detected → +2.3σ</span>
+          </div>
+          <div class="terminal-line">
+            <span class="output warn">[18:42:07] risk_level: ELEVATED</span>
+          </div>
+          <div class="terminal-line">
+            <span class="output warn">[18:42:07] pattern: implicit_blame</span>
+          </div>
+          <div class="terminal-line">
+            <span class="output highlight">[18:42:07] → haptic_alert sent</span>
+          </div>
+          <div class="terminal-line">
+            <span class="output">[18:42:15] tone_normalized → baseline</span>
+          </div>
+          <div class="terminal-line">
+            <span class="output highlight">[18:42:15] intervention: SUCCESS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scenarios -->
+  <section>
+    <div class="section-label">
+      <span class="num">03</span>
+      <span class="line"></span>
+      <span class="text">Scenarios</span>
+    </div>
+    <h2 class="section-title">这些对话，每天都在发生</h2>
+    <p class="section-desc">
+      语言暴力不总是大喊大叫。更多时候，是那些"无意识"的伤害。
+    </p>
+    <div class="scenario-grid">
+      <div class="scenario-card">
+        <div class="scenario-icon">🔥</div>
+        <h3>情绪升级</h3>
+        <p>讨论成绩时语气逐渐加重，从"关心"滑向"指责"，双方都没意识到临界点已过。</p>
+        <div class="scenario-quote">"你看看人家小明，再看看你自己！"</div>
+        <div class="scenario-resolve">→ 语镜在语气偏移+1.5σ时触发振动提醒</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-icon">🧊</div>
+        <h3>冷暴力</h3>
+        <p>没有吼叫，但沉默、叹气、讽刺性语气同样具有杀伤力。孩子学会了闭嘴。</p>
+        <div class="scenario-quote">"随便你吧，反正说了你也不听。"</div>
+        <div class="scenario-resolve">→ 语镜识别消极退出模式，事后报告标注</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-icon">🔄</div>
+        <h3>恶性循环</h3>
+        <p>相同的争吵模式反复出现，双方都困在固定脚本里，却不知道如何打破。</p>
+        <div class="scenario-quote">"每次都这样，你怎么就不能改改？"</div>
+        <div class="scenario-resolve">→ 语镜AI复盘识别重复模式，提供替代策略</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roadmap -->
+  <section id="roadmap">
+    <div class="section-label">
+      <span class="num">04</span>
+      <span class="line"></span>
+      <span class="text">Roadmap</span>
+    </div>
+    <h2 class="section-title">我们在哪里</h2>
+    <p class="section-desc">
+      诚实地说，我们还在早期。但每一步都经过验证。
+    </p>
+    <div class="roadmap">
+      <div class="roadmap-phase">
+        <div class="phase-status done">Completed</div>
+        <div class="phase-title">概念验证</div>
+        <div class="phase-desc">5天内从Planning到EVT，完成核心算法原型与系统架构验证。</div>
+      </div>
+      <div class="roadmap-phase">
+        <div class="phase-status done">Completed</div>
+        <div class="phase-title">MVP 系统验证</div>
+        <div class="phase-desc">端到端管线跑通，语义识别准确率达到可用阈值，边缘推理延迟&lt;200ms。</div>
+      </div>
+      <div class="roadmap-phase current">
+        <div class="phase-status active">In Progress</div>
+        <div class="phase-title">用户前测</div>
+        <div class="phase-desc">招募首批家庭用户，真实场景验证，收集反馈迭代产品。</div>
+      </div>
+      <div class="roadmap-phase">
+        <div class="phase-status upcoming">Upcoming</div>
+        <div class="phase-title">开放接入</div>
+        <div class="phase-desc">支持第三方设备接入，开放API，构建家庭对话安全生态。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
+    <h2 class="cta-headline">孩子的记忆里<br><span>不再有创伤</span></h2>
+    <p class="cta-desc">
+      我们正在招募首批测试家庭。如果你关心家庭对话质量，加入我们的等待列表。
+    </p>
+    <div class="cta-actions">
+      <button class="btn btn-primary">
+        加入等待列表
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+      <button class="btn btn-secondary">
+        联系团队
+      </button>
+    </div>
+    <p class="cta-note">
+      Built with care in Shenzhen · 深圳科创学院 INFO-TECH LAB
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <span class="logo-1nfotech">
+          <span class="logo-main">1NF0</span>
+          <span class="logo-sub">TECH</span>
+        </span>
+      </div>
+      <span class="footer-text">© 2025 语镜 INFO-TECH · All rights reserved</span>
+    </div>
+    <div class="footer-right">
+      <a href="#" class="footer-link">Privacy</a>
+      <a href="#" class="footer-link">Contact</a>
+      <div class="footer-time" id="footerTime">00:00:00</div>
+    </div>
+  </footer>
+
+  <script>
+    // Time
+    function updateTime() {
+      const now = new Date();
+      document.getElementById('footerTime').textContent = now.toTimeString().slice(0, 8);
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Custom cursor: circular, inverted color, click shrink
+    (function () {
+      const cursorEl = document.getElementById('customCursor');
+      // 只在有精细指针设备（鼠标）时启用
+      if (!cursorEl || !window.matchMedia || !window.matchMedia('(pointer: fine)').matches) {
+        return;
+      }
+
+      window.addEventListener('mousemove', (e) => {
+        cursorEl.style.left = e.clientX + 'px';
+        cursorEl.style.top = e.clientY + 'px';
+        cursorEl.classList.add('custom-cursor--visible');
+      });
+
+      window.addEventListener('mousedown', () => {
+        cursorEl.classList.add('custom-cursor--active');
+      });
+
+      window.addEventListener('mouseup', () => {
+        cursorEl.classList.remove('custom-cursor--active');
+      });
+    })();
+
+    // Theme toggle: day / night
+    (function () {
+      const body = document.body;
+      const toggle = document.getElementById('themeToggle');
+      if (!toggle) return;
+
+      const applyTheme = (theme) => {
+        const isLight = theme === 'light';
+        body.classList.remove('theme-light', 'theme-dark');
+        body.classList.add(isLight ? 'theme-light' : 'theme-dark');
+        toggle.classList.toggle('theme-toggle--light', isLight);
+        toggle.setAttribute(
+          'aria-label',
+          isLight ? '切换到黑夜模式' : '切换到白天模式'
+        );
+      };
+
+      let saved = null;
+      try {
+        saved = window.localStorage.getItem('yujing-theme');
+      } catch (e) {}
+
+      const initialTheme = saved === 'light' ? 'light' : 'dark';
+      applyTheme(initialTheme);
+
+      toggle.addEventListener('click', () => {
+        const nextTheme = body.classList.contains('theme-light') ? 'dark' : 'light';
+        applyTheme(nextTheme);
+        try {
+          window.localStorage.setItem('yujing-theme', nextTheme);
+        } catch (e) {}
+      });
+    })();
+  </script>
+</body>
+</html>

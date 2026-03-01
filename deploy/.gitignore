@@ -1,0 +1,14 @@
+# Environment variables (contains secrets)
+.env
+
+# Backup files
+backups/
+*.tar.gz
+
+# Docker volumes (managed by Docker)
+data/
+audio/
+
+# Logs
+*.log
+logs/

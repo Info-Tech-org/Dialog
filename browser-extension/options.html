@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Info-Tech 扩展设置</title>
+  <style>
+    body { font-family: sans-serif; padding: 16px; min-width: 360px; }
+    label { display: block; margin-top: 12px; font-weight: bold; }
+    input { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; }
+    button { margin-top: 16px; padding: 8px 16px; }
+  </style>
+</head>
+<body>
+  <h2>Info-Tech 扩展设置</h2>
+  <label>后端地址 (Base URL)</label>
+  <input type="text" id="baseUrl" placeholder="http://localhost:8000 或 https://your-server.com" />
+  <label>设备 Token (Device Ingest Token)</label>
+  <input type="password" id="deviceToken" placeholder="与 ESP32 设备绑定时使用的 token" />
+  <p style="color:#666; font-size:12px;">设备 ID 将使用 <code>web-extension</code>，与后端 /ws/ingest/pcm 和 /ws/realtime/subscribe 一致。</p>
+  <button id="save">保存</button>
+  <span id="status" style="margin-left:8px;"></span>
+  <script src="options.js"></script>
+</body>
+</html>

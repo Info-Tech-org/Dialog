@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Info-Tech 实时字幕</title>
+  <style>
+    body { font-family: sans-serif; width: 320px; min-height: 200px; padding: 12px; margin: 0; }
+    .popup-logo { height: 28px; width: auto; max-width: 120px; display: block; margin-bottom: 6px; }
+    .popup-official { font-size: 11px; margin-bottom: 6px; }
+    .popup-official a { color: #667eea; text-decoration: none; }
+    h3 { margin: 0 0 8px 0; }
+    #status { color: #666; font-size: 12px; margin-bottom: 8px; }
+    #captions { background: #f5f5f5; padding: 8px; border-radius: 6px; max-height: 120px; overflow-y: auto; font-size: 13px; }
+    #captions .final { color: #111; }
+    #captions .partial { color: #888; }
+    #harmful { background: #ffebee; padding: 8px; border-radius: 6px; margin-top: 8px; font-size: 12px; color: #c62828; display: none; }
+    #harmful.visible { display: block; }
+    button { margin-top: 8px; padding: 8px 14px; }
+    .error { color: #c62828; }
+  </style>
+</head>
+<body>
+  <a href="https://infotech-launch.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="官网">
+    <img src="logo.svg" alt="Info-Tech 语镜" class="popup-logo" />
+  </a>
+  <p class="popup-official"><a href="https://infotech-launch.vercel.app/" target="_blank" rel="noopener noreferrer">官网</a></p>
+  <h3>Info-Tech 实时字幕</h3>
+  <div id="status">请先在扩展选项中设置后端地址与设备 Token。</div>
+  <div id="captions"></div>
+  <div id="harmful"></div>
+  <button id="btnToggle">开始监听</button>
+  <script src="popup.js"></script>
+</body>
+</html>

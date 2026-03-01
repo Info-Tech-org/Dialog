@@ -1,0 +1,915 @@
+<mxfile host="65bd71144e">
+    <diagram id="overall" name="1-整体系统架构">
+        <mxGraphModel dx="466" dy="899" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="家庭情绪交互系统 - 整体架构" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="600" y="20" width="400" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="device_layer" value="设备层" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="100" width="280" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="esp32" value="ESP32-S3 手环&#xa;&#xa;✓ 音频采集 (16kHz PCM)&#xa;✓ WebSocket 客户端&#xa;✓ 振动反馈 (5级强度)&#xa;✓ LED 指示" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="150" width="220" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="device_flow" value="设备工作流程：&#xa;1. 连接 WiFi&#xa;2. WebSocket 握手&#xa;3. 发送 start_session&#xa;4. 实时发送音频流&#xa;5. 接收振动指令&#xa;6. 发送 end_session" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="300" width="220" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="backend_layer" value="后端服务层 (FastAPI)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=16;fontStyle=1;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="100" width="520" height="900" as="geometry"/>
+                </mxCell>
+                <mxCell id="ws_module" value="WebSocket 服务&#xa;/ws" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="150" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="realtime_box" value="实时处理模块" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;verticalAlign=top;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="220" width="220" height="240" as="geometry"/>
+                </mxCell>
+                <mxCell id="tencent_asr" value="腾讯云实时 ASR&#xa;&#xa;✓ 实时语音识别&#xa;✓ 连接池管理&#xa;✓ 错误重连" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="250" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="keyword_detect" value="关键词检测&#xa;&#xa;14个有害词汇&#xa;快速匹配" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="345" width="180" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="llm_detect" value="LLM 语义检测&#xa;&#xa;Gemma 2 27B&#xa;深度语义理解&#xa;严重程度评级 (1-5)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="405" width="180" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="session_mgr" value="会话管理器&#xa;&#xa;✓ 创建/结束会话&#xa;✓ 计数有害语句&#xa;✓ 数据库操作" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="490" width="220" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="audio_writer" value="音频写入器&#xa;&#xa;✓ 实时写入 WAV 文件&#xa;✓ PCM 格式转换&#xa;✓ 文件管理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="600" width="220" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_box" value="离线处理模块" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;verticalAlign=top;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="710" width="220" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="cos_uploader" value="COS 上传器&#xa;&#xa;✓ 腾讯云对象存储&#xa;✓ 预签名 URL&#xa;✓ 私有读写" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="740" width="180" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_asr" value="离线 ASR 处理&#xa;&#xa;✓ 录音文件识别&#xa;✓ 说话人分离 (A/B)&#xa;✓ LLM 批量检测" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="825" width="180" height="75" as="geometry"/>
+                </mxCell>
+                <mxCell id="api_box" value="REST API" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;verticalAlign=top;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="680" y="150" width="220" height="300" as="geometry"/>
+                </mxCell>
+                <mxCell id="auth_api" value="认证 API&#xa;/api/auth/*&#xa;&#xa;✓ 用户注册/登录&#xa;✓ JWT 令牌生成&#xa;✓ 密码加密 (bcrypt)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="180" width="180" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="session_api" value="会话 API&#xa;/api/sessions/*&#xa;&#xa;✓ 获取会话列表&#xa;✓ 获取会话详情&#xa;✓ 查询 utterances" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="285" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="upload_api" value="上传 API&#xa;/api/audio/*&#xa;&#xa;✓ 音频文件上传&#xa;✓ 处理状态查询&#xa;✓ 异步处理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="380" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="frontend_layer" value="前端界面层 (React + Vite)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;fontStyle=1;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="960" y="100" width="560" height="550" as="geometry"/>
+                </mxCell>
+                <mxCell id="login_page" value="登录页面&#xa;&#xa;✓ 用户认证&#xa;✓ Token 存储&#xa;✓ 路由保护" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="990" y="150" width="240" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="sessions_page" value="会话列表页&#xa;&#xa;✓ 显示所有会话&#xa;✓ 有害语句计数&#xa;✓ 时间/设备筛选&#xa;✓ 导航到详情" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="1260" y="150" width="240" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="detail_page" value="会话详情页&#xa;&#xa;✓ 完整对话记录&#xa;✓ 说话人区分 (A/B)&#xa;✓ 有害语句高亮&#xa;✓ 时间轴显示" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="990" y="280" width="240" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="upload_page" value="音频上传页&#xa;&#xa;✓ 文件选择/拖拽&#xa;✓ 上传进度显示&#xa;✓ 处理状态轮询&#xa;✓ 结果展示" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="1260" y="280" width="240" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="router" value="React Router&#xa;&#xa;路由管理：&#xa;• /login - 登录&#xa;• /sessions - 列表&#xa;• /sessions/:id - 详情&#xa;• /upload - 上传" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="990" y="420" width="510" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="api_client" value="API 客户端 (fetch)&#xa;&#xa;✓ 统一请求封装&#xa;✓ Bearer Token 注入&#xa;✓ 错误处理&#xa;✓ 自动重试" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="990" y="540" width="510" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="db_layer" value="数据库层 (SQLite + SQLModel)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;fontStyle=1;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="960" y="690" width="560" height="310" as="geometry"/>
+                </mxCell>
+                <mxCell id="users_table" value="users 表&#xa;&#xa;• id (主键)&#xa;• username (唯一)&#xa;• email (唯一)&#xa;• hashed_password&#xa;• full_name&#xa;• is_active / is_admin&#xa;• created_at" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="990" y="730" width="230" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="sessions_table" value="sessions 表&#xa;&#xa;• session_id (主键)&#xa;• device_id&#xa;• start_time / end_time&#xa;• audio_path&#xa;• harmful_count" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="1260" y="730" width="240" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="utterances_table" value="utterances 表&#xa;&#xa;• id (主键)&#xa;• session_id (外键)&#xa;• start / end (时间戳)&#xa;• speaker (A/B)&#xa;• text&#xa;• harmful_flag" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="990" y="890" width="510" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="cloud_layer" value="云服务层" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=16;fontStyle=1;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="550" width="280" height="450" as="geometry"/>
+                </mxCell>
+                <mxCell id="tencent_cloud" value="腾讯云服务" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="600" width="220" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="tencent_realtime" value="实时语音识别 (ASR)&#xa;&#xa;✓ WebSocket 接口&#xa;✓ 16kHz PCM 输入&#xa;✓ 实时文本输出" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="655" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="tencent_offline" value="录音文件识别&#xa;&#xa;✓ 支持多种格式&#xa;✓ 说话人分离&#xa;✓ 高精度识别" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="750" width="220" height="75" as="geometry"/>
+                </mxCell>
+                <mxCell id="tencent_cos" value="对象存储 (COS)&#xa;&#xa;✓ 音频文件存储&#xa;✓ 预签名 URL&#xa;✓ 私有读写权限" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="840" width="220" height="75" as="geometry"/>
+                </mxCell>
+                <mxCell id="openrouter" value="OpenRouter LLM&#xa;&#xa;Model: Gemma 2 27B&#xa;&#xa;✓ 语义理解&#xa;✓ 有害语检测&#xa;✓ 严重程度评级" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="930" width="220" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow1" value="WebSocket&#xa;音频流" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;entryX=0;entryY=0.25;strokeWidth=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" source="esp32" target="ws_module" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow2" value="振动指令" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;entryX=1;entryY=0.75;strokeWidth=2;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;" parent="1" source="ws_module" target="esp32" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow3" value="HTTP&#xa;请求" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="api_client" target="api_box" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="940" y="585" as="sourcePoint"/>
+                        <mxPoint x="920" y="300" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="arrow4" value="ASR 调用" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;entryX=1;entryY=0.25;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;" parent="1" source="tencent_asr" target="tencent_realtime" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow5" value="LLM 调用" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;" parent="1" source="llm_detect" target="openrouter" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="380" y="448"/>
+                            <mxPoint x="380" y="975"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="arrow6" value="COS 上传" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;" parent="1" source="cos_uploader" target="tencent_cos" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow7" value="离线 ASR" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;entryX=1;entryY=0.75;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;" parent="1" source="offline_asr" target="tencent_offline" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow8" value="数据库操作" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;entryX=0;entryY=0.5;strokeWidth=2;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" source="session_mgr" target="sessions_table" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="660" y="580"/>
+                            <mxPoint x="660" y="640"/>
+                            <mxPoint x="940" y="640"/>
+                            <mxPoint x="940" y="785"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="note1" value="说明：&#xa;• 实线箭头：数据流向&#xa;• 虚线箭头：API 调用&#xa;• 颜色区分：不同功能模块" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="1320" y="20" width="200" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="realtime_flow" name="2-实时检测流程">
+        <mxGraphModel dx="1434" dy="843" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title2" value="实时音频处理与有害语检测流程" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="500" y="20" width="600" height="40" as="geometry"/>
+                </mxCell>
+                <!-- Flow Steps -->
+                <mxCell id="step1" value="1. 设备连接" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="100" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="step1_detail" value="ESP32-S3 建立 WebSocket 连接&#xa;ws://backend:8000/ws" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="350" y="100" width="300" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="step2" value="2. 开始会话" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="180" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="step2_detail" value="发送消息：&#xa;{ &quot;type&quot;: &quot;start_session&quot;, &quot;device_id&quot;: &quot;band001&quot; }&#xa;&#xa;后端响应：&#xa;• 创建 session 记录 (数据库)&#xa;• 初始化 AudioWriter (准备写入 WAV)&#xa;• 连接腾讯云实时 ASR&#xa;• 返回 session_id" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="350" y="170" width="450" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="step3" value="3. 音频流传输" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="310" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="step3_detail" value="设备持续发送音频二进制数据：&#xa;• 格式：PCM, 16kHz, 16-bit, 单声道&#xa;• 分块大小：约 3200 字节 (0.1秒)&#xa;&#xa;后端处理：&#xa;• AudioWriter: 写入本地 WAV 文件&#xa;• TencentASR: 发送到腾讯云实时识别" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="350" y="295" width="450" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="step4" value="4. ASR 识别" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="450" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="step4_detail" value="腾讯云实时 ASR 返回结果：&#xa;{&#xa;  &quot;text&quot;: &quot;你怎么这么笨&quot;,&#xa;  &quot;is_final&quot;: true&#xa;}&#xa;&#xa;后端处理：&#xa;• 只处理 is_final=true 的结果&#xa;• 进入有害语检测流程" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;fontFamily=Courier New;" vertex="1" parent="1">
+                    <mxGeometry x="350" y="430" width="450" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="step5" value="5. 双层检测" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="600" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="step5_box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#b85450;fontSize=11;dashed=1;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="350" y="585" width="1150" height="240" as="geometry"/>
+                </mxCell>
+                <!-- Layer 1: Keyword Detection -->
+                <mxCell id="layer1_title" value="第一层：关键词快速检测" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="370" y="600" width="250" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer1_keywords" value="14个有害关键词：&#xa;没用、废物、滚出去、闭嘴、讨厌你、&#xa;后悔生你、打死你、蠢、笨蛋、白痴、&#xa;傻子、去死、滚、混蛋" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="370" y="635" width="300" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer1_code" value="def is_harmful(text):&#xa;    for keyword in HARMFUL_KEYWORDS:&#xa;        if keyword in text:&#xa;            return True&#xa;    return False" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;fontFamily=Courier New;" vertex="1" parent="1">
+                    <mxGeometry x="370" y="720" width="300" height="80" as="geometry"/>
+                </mxCell>
+                <!-- Layer 2: LLM Detection -->
+                <mxCell id="layer2_title" value="第二层：LLM 深度语义检测" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="710" y="600" width="250" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer2_llm" value="使用 OpenRouter API&#xa;Model: google/gemma-2-27b-it&#xa;&#xa;Prompt: 分析以下家长对孩子说的话&#xa;是否有害...&#xa;&#xa;返回 JSON：&#xa;{&#xa;  &quot;is_harmful&quot;: true,&#xa;  &quot;severity&quot;: 4,&#xa;  &quot;category&quot;: &quot;贬低&quot;,&#xa;  &quot;explanation&quot;: &quot;...&quot;&#xa;}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;spacingLeft=10;fontFamily=Courier New;" vertex="1" parent="1">
+                    <mxGeometry x="710" y="635" width="270" height="165" as="geometry"/>
+                </mxCell>
+                <!-- Detection Result -->
+                <mxCell id="result_box" value="检测结果汇总" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+                    <mxGeometry x="1020" y="620" width="460" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="result_logic" value="if keyword_harmful OR llm_harmful:&#xa;    harmful_count += 1&#xa;    &#xa;    # 确定振动强度&#xa;    vibration_pattern = min(llm_severity, 5)&#xa;    &#xa;    # 发送振动指令&#xa;    websocket.send_json({&#xa;        &quot;type&quot;: &quot;vibrate&quot;,&#xa;        &quot;pattern&quot;: vibration_pattern,&#xa;        &quot;text&quot;: text,&#xa;        &quot;severity&quot;: llm_severity,&#xa;        &quot;category&quot;: llm_category&#xa;    })" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;fontFamily=Courier New;" vertex="1" parent="1">
+                    <mxGeometry x="1040" y="650" width="420" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="step6" value="6. 振动反馈" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="860" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="step6_detail" value="设备接收振动指令：&#xa;{&#xa;  &quot;type&quot;: &quot;vibrate&quot;,&#xa;  &quot;pattern&quot;: 4,&#xa;  &quot;text&quot;: &quot;你怎么这么笨&quot;,&#xa;  &quot;severity&quot;: 4,&#xa;  &quot;category&quot;: &quot;贬低&quot;&#xa;}&#xa;&#xa;设备执行：&#xa;• 根据 pattern (1-5) 决定振动强度和时长&#xa;• LED 指示灯闪烁&#xa;• 可选：震动模式差异化 (单次/连续/长短组合)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;fontFamily=Courier New;" vertex="1" parent="1">
+                    <mxGeometry x="350" y="835" width="500" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="vibration_levels" value="振动强度说明：&#xa;&#xa;Level 1: 轻微提醒 (100ms)&#xa;Level 2: 中等提醒 (200ms)&#xa;Level 3: 明显提醒 (300ms, 2次)&#xa;Level 4: 强烈提醒 (400ms, 3次)&#xa;Level 5: 最强提醒 (500ms, 连续)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="900" y="865" width="300" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="step7" value="7. 结束会话" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="1070" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="step7_detail" value="设备发送结束消息：&#xa;{ &quot;type&quot;: &quot;end_session&quot; }&#xa;&#xa;后端处理：&#xa;• AudioWriter: 关闭并保存 WAV 文件&#xa;• SessionManager: 更新 session 记录&#xa;  - end_time = 当前时间&#xa;  - audio_path = 本地文件路径&#xa;  - harmful_count = 统计结果&#xa;• 断开腾讯云 ASR 连接&#xa;• 触发离线处理任务 (异步)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;fontFamily=Courier New;" vertex="1" parent="1">
+                    <mxGeometry x="350" y="1045" width="500" height="180" as="geometry"/>
+                </mxCell>
+                <!-- Flow Arrows -->
+                <mxCell id="flow1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#dae8fc;strokeColor=#6c8ebf;" edge="1" parent="1" source="step1" target="step2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#dae8fc;strokeColor=#6c8ebf;" edge="1" parent="1" source="step2" target="step3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#d5e8d4;strokeColor=#82b366;" edge="1" parent="1" source="step3" target="step4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#f8cecc;strokeColor=#b85450;" edge="1" parent="1" source="step4" target="step5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#f8cecc;strokeColor=#b85450;" edge="1" parent="1" source="step5" target="step6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#dae8fc;strokeColor=#6c8ebf;" edge="1" parent="1" source="step6" target="step7">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="loop_arrow" value="循环处理" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="50" y="335" as="sourcePoint"/>
+                        <mxPoint x="50" y="925" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="50" y="335"/>
+                            <mxPoint x="50" y="925"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="offline_flow" name="3-离线处理流程">
+        <mxGraphModel dx="466" dy="899" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title3" value="离线音频处理与分析流程" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="550" y="20" width="500" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="trigger_box" value="触发方式" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="100" width="600" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="trigger1" value="方式 1: 会话结束触发&#xa;WebSocket 会话结束时自动触发" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="130" y="140" width="250" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="trigger2" value="方式 2: 手动上传音频&#xa;用户通过 Web 界面上传文件" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="140" width="250" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step1" value="步骤 1: 文件准备" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="260" width="250" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step1_detail" value="本地音频文件：&#xa;• 路径：./data/audio/uploads/{uuid}_{timestamp}.wav&#xa;• 格式：WAV, PCM, 16kHz, 单声道&#xa;&#xa;检查文件：&#xa;• 验证文件存在性&#xa;• 检查文件大小 (&lt; 100MB)&#xa;• 验证音频格式" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="250" width="400" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step2" value="步骤 2: 上传到 COS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="420" width="250" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step2_detail" value="腾讯云对象存储 (COS):&#xa;&#xa;配置：&#xa;• Region: ap-guangzhou&#xa;• Bucket: info-tech-test-1314143047&#xa;• 权限：私有读写&#xa;&#xa;上传过程：&#xa;cos_client = CosS3Client(config)&#xa;cos_client.put_object(&#xa;    Bucket=bucket,&#xa;    Key=f&#39;audio/{session_id}.wav&#39;,&#xa;    Body=audio_file&#xa;)&#xa;&#xa;生成访问 URL：&#xa;• 使用预签名 URL (有效期 1小时)&#xa;• 私密访问，安全性高" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;fontFamily=Courier New;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="405" width="500" height="260" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step3" value="步骤 3: 录音文件识别" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="710" width="250" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step3_detail" value="腾讯云录音文件识别 API:&#xa;&#xa;请求参数：&#xa;{&#xa;    &quot;EngineModelType&quot;: &quot;16k_zh&quot;,&#xa;    &quot;ChannelNum&quot;: 1,&#xa;    &quot;ResTextFormat&quot;: 0,&#xa;    &quot;SourceType&quot;: 0,&#xa;    &quot;Url&quot;: cos_url,&#xa;    &quot;SpeakerDiarization&quot;: 1,  // 开启说话人分离&#xa;    &quot;SpeakerNumber&quot;: 2  // 2个说话人 (家长+孩子)&#xa;}&#xa;&#xa;处理流程：&#xa;1. 提交任务 → 获取 TaskId&#xa;2. 轮询状态 (每5秒查询一次)&#xa;3. 等待识别完成 (通常 1-5分钟)&#xa;4. 获取完整结果" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;fontFamily=Courier New;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="690" width="550" height="250" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step4" value="步骤 4: 解析结果" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="980" width="250" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step4_detail" value="ASR 返回结果示例：&#xa;{&#xa;  &quot;Result&quot;: [&#xa;    {&#xa;      &quot;speaker_id&quot;: &quot;0&quot;,&#xa;      &quot;start&quot;: 0.0,&#xa;      &quot;end&quot;: 2.5,&#xa;      &quot;text&quot;: &quot;你今天作业做完了吗&quot;&#xa;    },&#xa;    {&#xa;      &quot;speaker_id&quot;: &quot;1&quot;,&#xa;      &quot;start&quot;: 2.5,&#xa;      &quot;end&quot;: 3.8,&#xa;      &quot;text&quot;: &quot;还没有&quot;&#xa;    },&#xa;    {&#xa;      &quot;speaker_id&quot;: &quot;0&quot;,&#xa;      &quot;start&quot;: 3.8,&#xa;      &quot;end&quot;: 5.5,&#xa;      &quot;text&quot;: &quot;你怎么这么笨&quot;&#xa;    }&#xa;  ]&#xa;}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;fontFamily=Courier New;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="970" width="400" height="280" as="geometry"/>
+                </mxCell>
+                <mxCell id="speaker_mapping" value="说话人映射：&#xa;&#xa;speaker_id &quot;0&quot; → Speaker A (家长)&#xa;speaker_id &quot;1&quot; → Speaker B (孩子)&#xa;&#xa;说明：&#xa;• 实际应用中可能需要更多上下文&#xa;  判断哪个是家长&#xa;• 可通过声纹识别进一步优化&#xa;• 或者让用户手动标注" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="850" y="1000" width="350" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step5" value="步骤 5: 批量有害语检测" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1250" y="690" width="280" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step5_detail" value="对每条 utterance 进行检测：&#xa;&#xa;for utterance in results:&#xa;    text = utterance[&#39;text&#39;]&#xa;    &#xa;    # 关键词检测&#xa;    keyword_harmful = is_harmful(text)&#xa;    &#xa;    # LLM 检测 (批量处理优化)&#xa;    llm_result = await llm_detector.detect(text)&#xa;    &#xa;    # 记录结果&#xa;    if keyword_harmful or llm_result[&#39;is_harmful&#39;]:&#xa;        utterance[&#39;harmful_flag&#39;] = True&#xa;        harmful_count += 1&#xa;    else:&#xa;        utterance[&#39;harmful_flag&#39;] = False&#xa;&#xa;优化策略：&#xa;• 批量调用 LLM (减少 API 调用次数)&#xa;• 并发处理 (asyncio.gather)&#xa;• 缓存相似结果" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;fontFamily=Courier New;" parent="1" vertex="1">
+                    <mxGeometry x="1030" y="420" width="500" height="320" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step6" value="步骤 6: 保存到数据库" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1250" y="800" width="280" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step6_detail" value="数据库操作：&#xa;&#xa;1. 更新 sessions 表：&#xa;   UPDATE sessions&#xa;   SET harmful_count = ?,&#xa;       audio_path = ?,&#xa;       end_time = ?&#xa;   WHERE session_id = ?&#xa;&#xa;2. 插入 utterances 表：&#xa;   for utterance in results:&#xa;       INSERT INTO utterances&#xa;       (session_id, start, end, speaker, &#xa;        text, harmful_flag)&#xa;       VALUES (?, ?, ?, ?, ?, ?)&#xa;&#xa;事务处理：&#xa;• 使用数据库事务保证原子性&#xa;• 失败时回滚，保证数据一致性" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;fontFamily=Courier New;" parent="1" vertex="1">
+                    <mxGeometry x="1250" y="880" width="450" height="270" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step7" value="步骤 7: 前端展示" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="1300" width="250" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_step7_detail" value="用户在 Web 界面查看结果：&#xa;&#xa;1. 会话列表页：&#xa;   • 显示所有会话&#xa;   • 有害语句数量标记&#xa;   • 时间排序&#xa;&#xa;2. 会话详情页：&#xa;   • 完整对话时间轴&#xa;   • 说话人标识 (A/B)&#xa;   • 有害语句红色高亮&#xa;   • 每句话的时间戳&#xa;   • 可播放原始音频 (如果有)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="1275" width="450" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="example_ui" value="前端显示示例：&#xa;&#xa;┌─────────────────────────────┐&#xa;│ 会话详情 - Session ABC123    │&#xa;├─────────────────────────────┤&#xa;│ 00:00 [A] 你今天作业做完了吗? │&#xa;│ 00:03 [B] 还没有...           │&#xa;│ 00:05 [A] 你怎么这么笨 ⚠️     │&#xa;│ 00:08 [B] 对不起...            │&#xa;└─────────────────────────────┘&#xa;&#xa;⚠️ = 有害语句标记" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=10;fontFamily=Courier New;" parent="1" vertex="1">
+                    <mxGeometry x="900" y="1290" width="350" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_flow1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" source="trigger_box" target="offline_step1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_flow2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="offline_step1" target="offline_step2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_flow3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="offline_step2" target="offline_step3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_flow4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" source="offline_step3" target="offline_step4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_flow5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="800" y="805" as="sourcePoint"/>
+                        <mxPoint x="1250" y="715" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="1000" y="805"/>
+                            <mxPoint x="1000" y="715"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="offline_flow6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" source="offline_step5" target="offline_step6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="offline_flow7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="800" y="1120" as="sourcePoint"/>
+                        <mxPoint x="225" y="1300" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="900" y="1120"/>
+                            <mxPoint x="900" y="1220"/>
+                            <mxPoint x="225" y="1220"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="time_note" value="⏱️ 处理时间估算：&#xa;&#xa;• 文件上传到 COS: ~5-30秒&#xa;• 录音文件识别: ~1-5分钟&#xa;• 有害语检测: ~10-30秒&#xa;• 数据库保存: &lt;1秒&#xa;&#xa;总计: 约 2-6 分钟" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=left;spacingLeft=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="1090" width="250" height="150" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="data_flow" name="4-数据流图">
+        <mxGraphModel dx="466" dy="899" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title4" value="系统数据流与交互关系图" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="550" y="20" width="500" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="data_sources_title" value="数据来源" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="80" y="80" width="150" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="data_source1" value="ESP32-S3 设备&#xa;实时音频流" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="120" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="data_source2" value="用户上传&#xa;音频文件" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="200" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="data_source3" value="用户注册/登录&#xa;认证信息" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="280" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="processing_title" value="数据处理" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="350" y="80" width="150" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="process1" value="实时 ASR&#xa;腾讯云" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="120" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="process2" value="关键词检测&#xa;本地" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="120" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="process3" value="LLM 检测&#xa;Gemma 2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="120" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="process4" value="离线 ASR&#xa;腾讯云" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="200" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="process5" value="说话人分离&#xa;腾讯云" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="200" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="process6" value="批量检测&#xa;LLM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="200" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="process7" value="JWT 认证&#xa;本地" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="390" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="storage_title" value="数据存储" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="800" y="80" width="150" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="storage1" value="本地 WAV 文件&#xa;./data/audio/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="800" y="120" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="storage2" value="COS 对象存储&#xa;腾讯云" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="1010" y="120" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="storage3" value="sessions 表&#xa;SQLite" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="800" y="200" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="storage4" value="utterances 表&#xa;SQLite" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="1010" y="200" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="storage5" value="users 表&#xa;SQLite" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="800" y="280" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="output_title" value="数据输出" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="1250" y="80" width="150" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="output1" value="设备振动指令&#xa;WebSocket" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="1250" y="120" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="output2" value="Web 会话列表&#xa;REST API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="1250" y="200" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="output3" value="Web 会话详情&#xa;REST API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="1250" y="280" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="df1" value="音频流" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" source="data_source1" target="process1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="df2" value="文本" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="process1" target="process2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="df3" value="文本" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="process2" target="process3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="df4" value="检测结果" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" source="process3" target="output1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="740" y="150"/>
+                            <mxPoint x="740" y="150"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df5" value="保存" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" source="data_source1" target="storage1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="170" y="100"/>
+                            <mxPoint x="890" y="100"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df6" value="上传" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="storage1" target="storage2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="df7" value="音频文件" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" source="data_source2" target="process4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="df8" value="文本+说话人" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="process4" target="process5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="df9" value="utterances" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="process5" target="process6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="df10" value="保存" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" source="process6" target="storage4" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="740" y="230"/>
+                            <mxPoint x="740" y="230"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df11" value="会话信息" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" source="process1" target="storage3" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="380" y="100"/>
+                            <mxPoint x="890" y="100"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df12" value="查询" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="storage3" target="output2" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1220" y="230"/>
+                            <mxPoint x="1220" y="230"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df13" value="查询" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="storage4" target="output3" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1220" y="310"/>
+                            <mxPoint x="1220" y="310"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df14" value="认证信息" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" source="data_source3" target="process7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="df15" value="保存" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" source="process7" target="storage5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="stats_box" value="数据流统计" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="400" width="1350" height="450" as="geometry"/>
+                </mxCell>
+                <mxCell id="stats1" value="实时处理性能&#xa;&#xa;• 音频采样率: 16kHz&#xa;• 每帧大小: 3200 字节 (0.1秒)&#xa;• ASR 延迟: &lt; 500ms&#xa;• 关键词检测: &lt; 10ms&#xa;• LLM 检测: 1-3 秒&#xa;• 总延迟: ~1.5-3.5 秒" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="440" width="350" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="stats2" value="离线处理性能&#xa;&#xa;• 文件上传: 5-30 秒&#xa;• ASR 识别: 1-5 分钟&#xa;• 说话人分离: 包含在 ASR 中&#xa;• 批量检测: 10-30 秒&#xa;• 数据库保存: &lt; 1 秒&#xa;• 总时长: 2-6 分钟" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="490" y="440" width="350" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="stats3" value="数据容量估算&#xa;&#xa;• 音频文件 (10分钟): ~10MB&#xa;• Session 记录: ~500 字节&#xa;• Utterance 记录: ~200 字节/条&#xa;• 平均对话: 50-100 条/会话&#xa;• 数据库大小: ~50KB/会话&#xa;• 每天 100 会话: ~1GB 音频 + 5MB 数据库" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="870" y="440" width="530" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="stats4" value="API 调用统计 (单个会话)&#xa;&#xa;实时处理：&#xa;• 腾讯云实时 ASR: 持续连接，按时长计费&#xa;• LLM 检测: 10-30 次 (取决于对话数量)&#xa;&#xa;离线处理：&#xa;• 腾讯云 COS 上传: 1 次&#xa;• 腾讯云录音识别: 1 次&#xa;• LLM 批量检测: 50-100 次 (可优化为批量调用)&#xa;&#xa;前端查询：&#xa;• 登录: 1 次&#xa;• 会话列表: 每次访问 1 次&#xa;• 会话详情: 每次访问 1 次" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="620" width="1290" height="200" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="state_machine" name="5-状态机设计">
+        <mxGraphModel dx="1434" dy="843" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title5" value="系统状态机设计" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="650" y="20" width="300" height="40" as="geometry"/>
+                </mxCell>
+                <!-- Session State Machine -->
+                <mxCell id="session_sm_title" value="1. 会话生命周期状态机" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="80" y="80" width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="session_sm_box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#d79b00;fontSize=11;dashed=1;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="120" width="700" height="350" as="geometry"/>
+                </mxCell>
+                <!-- Session States -->
+                <mxCell id="s_idle" value="IDLE&#xa;空闲" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="120" y="160" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="s_connecting" value="CONNECTING&#xa;连接中" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="280" y="160" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="s_active" value="ACTIVE&#xa;会话进行中" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="160" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="s_processing" value="PROCESSING&#xa;处理中" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="160" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="s_completed" value="COMPLETED&#xa;已完成" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="340" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="s_error" value="ERROR&#xa;错误" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="280" y="340" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <!-- Session Transitions -->
+                <mxCell id="st1" value="WebSocket 连接" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" edge="1" parent="1" source="s_idle" target="s_connecting">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="st2" value="start_session" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" edge="1" parent="1" source="s_connecting" target="s_active">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="st3" value="end_session" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" edge="1" parent="1" source="s_active" target="s_processing">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="st4" value="离线处理完成" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" edge="1" parent="1" source="s_processing" target="s_completed">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="690" y="300"/>
+                            <mxPoint x="530" y="300"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st5" value="连接失败" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;dashed=1;" edge="1" parent="1" source="s_connecting" target="s_error">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="st6" value="异常断开" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;dashed=1;" edge="1" parent="1" source="s_active" target="s_error">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="530" y="300"/>
+                            <mxPoint x="330" y="300"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st7" value="重试/重新连接" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#666666;strokeColor=#666666;fontSize=10;dashed=1;" edge="1" parent="1" source="s_error" target="s_idle">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="240" y="390"/>
+                            <mxPoint x="240" y="280"/>
+                            <mxPoint x="170" y="280"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st8" value="循环：接收音频&#xa;+ ASR + 检测" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" edge="1" parent="1" source="s_active" target="s_active">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="530" y="130"/>
+                            <mxPoint x="620" y="130"/>
+                            <mxPoint x="620" y="210"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <!-- WebSocket State Machine -->
+                <mxCell id="ws_sm_title" value="2. WebSocket 连接状态机" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="820" y="80" width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="ws_sm_box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#6c8ebf;fontSize=11;dashed=1;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="820" y="120" width="700" height="350" as="geometry"/>
+                </mxCell>
+                <!-- WebSocket States -->
+                <mxCell id="ws_disconnected" value="DISCONNECTED&#xa;未连接" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="860" y="160" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="ws_connecting" value="CONNECTING&#xa;握手中" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="1020" y="160" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="ws_connected" value="CONNECTED&#xa;已连接" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="1180" y="160" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="ws_authenticated" value="AUTHENTICATED&#xa;已认证" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="1380" y="160" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="ws_error" value="ERROR&#xa;错误" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="1180" y="340" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <!-- WebSocket Transitions -->
+                <mxCell id="wst1" value="websocket.connect()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" edge="1" parent="1" source="ws_disconnected" target="ws_connecting">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="wst2" value="握手成功" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" edge="1" parent="1" source="ws_connecting" target="ws_connected">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="wst3" value="start_session 成功" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" edge="1" parent="1" source="ws_connected" target="ws_authenticated">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="wst4" value="数据传输" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" edge="1" parent="1" source="ws_authenticated" target="ws_authenticated">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1430" y="130"/>
+                            <mxPoint x="1500" y="130"/>
+                            <mxPoint x="1500" y="210"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="wst5" value="超时/错误" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;dashed=1;" edge="1" parent="1" source="ws_connecting" target="ws_error">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1070" y="300"/>
+                            <mxPoint x="1230" y="300"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="wst6" value="断开连接" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;dashed=1;" edge="1" parent="1" source="ws_authenticated" target="ws_error">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1430" y="300"/>
+                            <mxPoint x="1230" y="300"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="wst7" value="关闭/重连" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#666666;strokeColor=#666666;fontSize=10;dashed=1;" edge="1" parent="1" source="ws_error" target="ws_disconnected">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1230" y="470"/>
+                            <mxPoint x="910" y="470"/>
+                            <mxPoint x="910" y="280"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <!-- Audio Upload State Machine -->
+                <mxCell id="upload_sm_title" value="3. 音频上传处理状态机" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="80" y="510" width="350" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="upload_sm_box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#82b366;fontSize=11;dashed=1;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="550" width="1440" height="280" as="geometry"/>
+                </mxCell>
+                <!-- Upload States -->
+                <mxCell id="u_idle" value="IDLE&#xa;空闲" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="120" y="590" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="u_uploading" value="UPLOADING&#xa;上传中" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="240" y="590" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="u_uploaded" value="UPLOADED&#xa;已上传" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="360" y="590" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="u_cos_upload" value="COS_UPLOAD&#xa;上传COS" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="590" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="u_asr_submit" value="ASR_SUBMIT&#xa;提交识别" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="590" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="u_asr_polling" value="ASR_POLLING&#xa;轮询中" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="720" y="590" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="u_asr_done" value="ASR_DONE&#xa;识别完成" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="840" y="590" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="u_llm_detect" value="LLM_DETECT&#xa;检测中" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="960" y="590" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="u_saving" value="SAVING&#xa;保存中" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="1080" y="590" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="u_completed" value="COMPLETED&#xa;完成" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="1200" y="590" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="u_error" value="ERROR&#xa;失败" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="660" y="720" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <!-- Upload Transitions -->
+                <mxCell id="ut1" value="选择文件" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#6c8ebf;fontSize=9;" edge="1" parent="1" source="u_idle" target="u_uploading">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ut2" value="上传完成" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=9;" edge="1" parent="1" source="u_uploading" target="u_uploaded">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ut3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#d6b656;fontSize=9;" edge="1" parent="1" source="u_uploaded" target="u_cos_upload">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ut4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#d79b00;fontSize=9;" edge="1" parent="1" source="u_cos_upload" target="u_asr_submit">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ut5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#d79b00;fontSize=9;" edge="1" parent="1" source="u_asr_submit" target="u_asr_polling">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ut6" value="每5秒查询" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#d79b00;fontSize=9;" edge="1" parent="1" source="u_asr_polling" target="u_asr_polling">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="760" y="560"/>
+                            <mxPoint x="810" y="560"/>
+                            <mxPoint x="810" y="630"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ut7" value="识别完成" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=9;" edge="1" parent="1" source="u_asr_polling" target="u_asr_done">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ut8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#9673a6;fontSize=9;" edge="1" parent="1" source="u_asr_done" target="u_llm_detect">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ut9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#d6b656;fontSize=9;" edge="1" parent="1" source="u_llm_detect" target="u_saving">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ut10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=9;" edge="1" parent="1" source="u_saving" target="u_completed">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ut11" value="上传失败" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=9;dashed=1;" edge="1" parent="1" source="u_uploading" target="u_error">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="280" y="760"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ut12" value="COS失败" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=9;dashed=1;" edge="1" parent="1" source="u_cos_upload" target="u_error">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="520" y="760"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ut13" value="ASR超时" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=9;dashed=1;" edge="1" parent="1" source="u_asr_polling" target="u_error">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ut14" value="重试" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#666666;fontSize=9;dashed=1;" edge="1" parent="1" source="u_error" target="u_idle">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="160" y="760"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <!-- ASR Detection State Machine -->
+                <mxCell id="detect_sm_title" value="4. 实时检测状态机" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="80" y="870" width="350" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="detect_sm_box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#b85450;fontSize=11;dashed=1;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="910" width="1440" height="450" as="geometry"/>
+                </mxCell>
+                <!-- Detection States -->
+                <mxCell id="d_waiting" value="WAITING&#xa;等待音频" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="140" y="960" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="d_receiving" value="RECEIVING&#xa;接收音频帧" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="960" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="d_asr_processing" value="ASR_PROCESSING&#xa;语音识别中" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="500" y="960" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="d_text_received" value="TEXT_RECEIVED&#xa;收到文本" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="960" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="d_keyword_check" value="KEYWORD_CHECK&#xa;关键词检测" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="140" y="1080" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="d_llm_check" value="LLM_CHECK&#xa;LLM 检测" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="1080" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="d_analyzing" value="ANALYZING&#xa;分析结果" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="540" y="1080" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="d_safe" value="SAFE&#xa;正常内容" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="740" y="1080" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="d_harmful" value="HARMFUL&#xa;有害内容" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="920" y="1080" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="d_vibrating" value="VIBRATING&#xa;发送振动" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="1100" y="1080" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="d_logging" value="LOGGING&#xa;记录日志" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="1280" y="1080" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="d_done" value="DONE&#xa;完成" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="1280" y="960" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <!-- Detection Transitions -->
+                <mxCell id="dt1" value="收到音频帧" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#6c8ebf;fontSize=10;" edge="1" parent="1" source="d_waiting" target="d_receiving">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dt2" value="发送到 ASR" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#82b366;fontSize=10;" edge="1" parent="1" source="d_receiving" target="d_asr_processing">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dt3" value="ASR 返回文本" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d6b656;fontSize=10;" edge="1" parent="1" source="d_asr_processing" target="d_text_received">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dt4" value="is_final=true" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d79b00;fontSize=10;" edge="1" parent="1" source="d_text_received" target="d_keyword_check">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="770" y="1050"/>
+                            <mxPoint x="210" y="1050"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dt5" value="并行" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#9673a6;fontSize=10;" edge="1" parent="1" source="d_keyword_check" target="d_llm_check">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dt6" value="合并结果" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d6b656;fontSize=10;" edge="1" parent="1" source="d_llm_check" target="d_analyzing">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dt7" value="无害" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#82b366;fontSize=10;" edge="1" parent="1" source="d_analyzing" target="d_safe">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dt8" value="有害" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#b85450;fontSize=10;" edge="1" parent="1" source="d_analyzing" target="d_harmful">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dt9" value="发送指令" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#b85450;fontSize=10;" edge="1" parent="1" source="d_harmful" target="d_vibrating">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dt10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d6b656;fontSize=10;" edge="1" parent="1" source="d_vibrating" target="d_logging">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dt11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d6b656;fontSize=10;" edge="1" parent="1" source="d_safe" target="d_logging">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="800" y="1180"/>
+                            <mxPoint x="1340" y="1180"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dt12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#82b366;fontSize=10;" edge="1" parent="1" source="d_logging" target="d_done">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dt13" value="继续等待" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666;fontSize=10;" edge="1" parent="1" source="d_done" target="d_waiting">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1340" y="920"/>
+                            <mxPoint x="200" y="920"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dt14" value="is_final=false&#xa;(忽略)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666;fontSize=10;dashed=1;" edge="1" parent="1" source="d_text_received" target="d_waiting">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="900" y="990"/>
+                            <mxPoint x="900" y="920"/>
+                            <mxPoint x="200" y="920"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <!-- State Machine Legend -->
+                <mxCell id="legend_title" value="状态机图例说明" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="1320" y="1230" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="1230" width="1200" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_content" value="状态类型：&#xa;• 圆形 = 会话/连接状态&#xa;• 方形 = 处理/检测状态&#xa;&#xa;箭头类型：&#xa;• 实线箭头 → 正常流程&#xa;• 虚线箭头 ⇢ 错误/异常流程&#xa;• 循环箭头 ↻ 持续/重复操作&#xa;&#xa;颜色含义：&#xa;• 灰色 - 初始/空闲状态&#xa;• 蓝色 - 连接/传输中&#xa;• 绿色 - 正常/成功状态&#xa;• 黄色/橙色 - 处理/分析中&#xa;• 紫色 - 认证/检测中&#xa;• 红色 - 错误/警告/有害内容" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="1250" width="1160" height="100" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

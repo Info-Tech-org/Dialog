@@ -1,0 +1,26 @@
+{
+  "servers": {
+    "default": {
+      "host": "your-server-ip",
+      "port": 22,
+      "username": "your-username",
+      "password": "your-password",
+      "description": "Default Server"
+    },
+    "production": {
+      "host": "prod-server-ip",
+      "port": 22,
+      "username": "deploy-user",
+      "key_file": "~/.ssh/id_rsa",
+      "description": "Production Server - Using SSH Key"
+    },
+    "staging": {
+      "host": "staging-server-ip",
+      "port": 2222,
+      "username": "root",
+      "password": "staging-password",
+      "description": "Staging Environment"
+    }
+  },
+  "default_server": "default"
+}

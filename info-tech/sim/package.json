@@ -1,0 +1,14 @@
+{
+  "name": "ws-pcm-sim",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local WebSocket PCM ingest simulator",
+  "main": "server.js",
+  "scripts": {
+    "server": "node server.js",
+    "client": "node client.js"
+  },
+  "dependencies": {
+    "ws": "^8.16.0"
+  }
+}

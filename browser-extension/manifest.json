@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Info-Tech 实时字幕",
+  "version": "1.0.0",
+  "description": "无硬件场景：浏览器麦克风 → 后端 ASR → 实时字幕与有害语提醒",
+  "permissions": ["storage", "scripting"],
+  "host_permissions": ["http://*/*", "ws://*/*", "https://*/*"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "options_ui": {
+    "page": "options.html"
+  }
+}

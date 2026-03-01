@@ -1,0 +1,17 @@
+{
+  "name": "@info-tech/pcm-client",
+  "version": "1.0.0",
+  "description": "Info-Tech PCM ingest client for HTTP and WebSocket upload (16kHz mono s16le)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": ["info-tech", "pcm", "ingest", "audio", "asr"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Info-Tech-org/info-tech.git",
+    "directory": "packages/pcm-client"
+  }
+}

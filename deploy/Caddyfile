@@ -1,0 +1,60 @@
+# Caddy configuration for Family Emotion System
+# Listen on port 9000
+
+{
+    # Global options
+    auto_https off
+}
+
+# Main server block - Listen on port 9000
+:9000 {
+    # Reverse proxy to backend API
+    handle /api/* {
+        reverse_proxy backend:8000 {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
+    # WebSocket support - let Caddy handle upgrade automatically
+    handle /ws/* {
+        reverse_proxy backend:8000 {
+            flush_interval -1
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
+    # Static media files (audio uploads) - MUST be before frontend!
+    handle /media/* {
+        reverse_proxy backend:8000 {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
+    # Serve frontend static files (fallback for all other routes)
+    handle /* {
+        reverse_proxy frontend:80
+    }
+
+    # Enable CORS
+    header Access-Control-Allow-Origin *
+    header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    header Access-Control-Allow-Headers "Content-Type, Authorization"
+
+    # Enable compression
+    encode gzip zstd
+
+    # Logging
+    log {
+        output file /data/access.log
+        format json
+    }
+}

@@ -1,0 +1,10 @@
+{
+  "host": "localhost",
+  "port": 9000,
+  "path": "/ws/ingest/pcm",
+  "device_token": "demo_token",
+  "session_id": "sim_1700000000000",
+  "device_id": "sim_device",
+  "chunk_size": 3200,
+  "total_chunks": 18
+}

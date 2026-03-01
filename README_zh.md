@@ -1,4 +1,4 @@
-# Dialog-OS（语镜）— 中文说明
+# Dialog（语镜）— 中文说明
 
 **主文档为英文 [README.md](README.md)**；本页仅为中文简要说明与入口。
 
@@ -24,7 +24,7 @@
 
 ## 快速开始
 
-1. 克隆：`git clone https://github.com/Info-Tech-org/Dialog-OS.git`
+1. 克隆：`git clone https://github.com/Info-Tech-org/Dialog.git`
 2. 配置本地密钥：复制 `backend/.env.example` 为 `backend/.env` 并填入腾讯云 ASR、OpenRouter 等密钥；或运行 `python scripts/setup_local_env.py` 按提示填写。
 3. 启动后端：`cd backend && python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload`
 4. 启动前端：`cd frontend && npm run dev`

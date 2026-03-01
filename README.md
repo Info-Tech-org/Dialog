@@ -1,10 +1,10 @@
 <div align="center">
 
 <div style="background:#2b2a24;padding:16px 24px;border-radius:12px;display:inline-block;margin-bottom:8px;">
-  <a href="https://infotech-launch.vercel.app/"><img src="assert/1NF0TECH_LOGO.svg" alt="Dialog-OS / Info-Tech 语镜" width="280" /></a>
+  <a href="https://infotech-launch.vercel.app/"><img src="assert/1NF0TECH_LOGO.svg" alt="Dialog / Info-Tech 语镜" width="280" /></a>
 </div>
 
-**Dialog-OS · Dialog Safety Infra** — Real-time harmful-speech detection and communication improvement for family dialogue
+**Dialog · Dialog Safety Infra** — Real-time harmful-speech detection and communication improvement for family dialogue
 
 *Primary documentation is in English. 中文简要说明：[README_zh.md](README_zh.md).*
 
@@ -21,7 +21,7 @@
 
 ## Introduction
 
-**Dialog-OS** (语镜) targets family conversation: **real-time speech recognition + harmful-speech detection + smart feedback** so parents can notice and improve how they talk to children. It supports ESP32 hardware, web, and browser extension; uses a three-stage pipeline (**absolute keywords → semantic vector recall → LLM screening**) for high recall with controlled false positives.
+**Dialog** (语镜) targets family conversation: **real-time speech recognition + harmful-speech detection + smart feedback** so parents can notice and improve how they talk to children. It supports ESP32 hardware, web, and browser extension; uses a three-stage pipeline (**absolute keywords → semantic vector recall → LLM screening**) for high recall with controlled false positives.
 
 | Capability | Description |
 |------------|-------------|
@@ -121,8 +121,8 @@ flowchart LR
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/Info-Tech-org/Dialog-OS.git
-cd Dialog-OS
+git clone https://github.com/Info-Tech-org/Dialog.git
+cd Dialog
 
 # Backend
 cd backend && pip install -r requirements.txt && cd ..
@@ -186,7 +186,7 @@ Required for full local run:
 ## Project structure
 
 ```
-Dialog-OS/
+Dialog/
 ├── backend/           # FastAPI backend
 │   ├── main.py        # App entry
 │   ├── config/        # settings.py (env-based)
@@ -236,7 +236,7 @@ Dialog-OS/
 
 ## Contributing and license
 
-Use [GitHub Issues](https://github.com/Info-Tech-org/Dialog-OS/issues) for bugs and [Pull Requests](https://github.com/Info-Tech-org/Dialog-OS/compare) for changes. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+Use [GitHub Issues](https://github.com/Info-Tech-org/Dialog/issues) for bugs and [Pull Requests](https://github.com/Info-Tech-org/Dialog/compare) for changes. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 This project is [MIT licensed](LICENSE). Security issues: see [SECURITY.md](SECURITY.md).
 
@@ -244,6 +244,6 @@ This project is [MIT licensed](LICENSE). Security issues: see [SECURITY.md](SECU
 
 <div align="center">
 
-**Dialog-OS** — Safer family dialogue · [https://infotech-launch.vercel.app/](https://infotech-launch.vercel.app/)
+**Dialog** — Safer family dialogue · [https://infotech-launch.vercel.app/](https://infotech-launch.vercel.app/)
 
 </div>

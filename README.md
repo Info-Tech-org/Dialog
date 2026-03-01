@@ -6,6 +6,8 @@
 
 **Dialog-OS · Dialog Safety Infra** — Real-time harmful-speech detection and communication improvement for family dialogue
 
+*Primary documentation is in English. 中文简要说明：[README_zh.md](README_zh.md).*
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-infotech--launch.vercel.app-2563eb?style=flat)](https://infotech-launch.vercel.app/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-green.svg)](https://www.python.org/)

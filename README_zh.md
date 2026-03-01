@@ -1,6 +1,6 @@
 # Dialog-OS（语镜）— 中文说明
 
-本文档为中文简要说明，完整英文文档见 [README.md](README.md)。
+**主文档为英文 [README.md](README.md)**；本页仅为中文简要说明与入口。
 
 ---
 

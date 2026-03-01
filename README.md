@@ -1,87 +1,88 @@
 <div align="center">
 
-[![Info-Tech 语镜](assert/1NF0TECH_LOGO.svg)](https://infotech-launch.vercel.app/)
+<div style="background:#2b2a24;padding:16px 24px;border-radius:12px;display:inline-block;margin-bottom:8px;">
+  <a href="https://infotech-launch.vercel.app/"><img src="assert/1NF0TECH_LOGO.svg" alt="Dialog-OS / Info-Tech 语镜" width="280" /></a>
+</div>
 
-**语镜 · Dialog Safety Infra** — 家庭场景下的实时有害语检测与沟通改进平台
+**Dialog-OS · Dialog Safety Infra** — Real-time harmful-speech detection and communication improvement for family dialogue
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![官网](https://img.shields.io/badge/官网-infotech--launch.vercel.app-2563eb?style=flat)](https://infotech-launch.vercel.app/)
+[![Website](https://img.shields.io/badge/Website-infotech--launch.vercel.app-2563eb?style=flat)](https://infotech-launch.vercel.app/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-green.svg)](https://www.python.org/)
 [![React 18](https://img.shields.io/badge/React-18-61dafb?logo=react)](https://reactjs.org/)
 
-[官网](https://infotech-launch.vercel.app/) · [功能特性](#功能特性) · [快速开始](#快速开始) · [架构](#系统架构) · [贡献](CONTRIBUTING.md)
+[Website](https://infotech-launch.vercel.app/) · [Features](#features) · [Quick Start](#quick-start) · [Architecture](#architecture) · [Contributing](CONTRIBUTING.md)
 
 </div>
 
 ---
 
-## 简介
+## Introduction
 
-**Info-Tech 语镜** 面向家庭沟通场景，通过 **实时语音识别 + 有害语检测 + 智能反馈**，帮助家长觉察并改善与孩子的对话方式。支持 ESP32 硬件、Web 端与浏览器扩展多种接入方式，结合 **绝对关键词、语义向量召回与 LLM 筛选** 的三层检测管道，在保证召回的同时控制误报。
+**Dialog-OS** (语镜) targets family conversation: **real-time speech recognition + harmful-speech detection + smart feedback** so parents can notice and improve how they talk to children. It supports ESP32 hardware, web, and browser extension; uses a three-stage pipeline (**absolute keywords → semantic vector recall → LLM screening**) for high recall with controlled false positives.
 
-| 能力 | 说明 |
-|------|------|
-| **实时** | WebSocket 音频流 → 腾讯云 ASR → 有害检测 → 振动/字幕提醒 |
-| **离线** | 录音文件上传 → 说话人分离 → 复盘摘要与 AI 演绎 |
-| **多端** | Web 管理台、实时听写、浏览器扩展、可穿戴桥接（智能眼镜等） |
-
----
-
-## 产品预览
-
-| 仪表盘 | 官网 |
-|--------|------|
-| ![仪表盘预览](docs/images/dashboard-preview.svg) | [**→ 在线体验官网**](https://infotech-launch.vercel.app/) |
-
-本地运行前端后可访问：**仪表盘** `/dashboard`、**会话列表**、**实时监听** `/live`、**设备管理**、**复盘流** 等完整功能。  
-仅需快速查看 UI 风格时，可直接打开仓库根目录 [ui-preview.html](ui-preview.html)（静态预览，无需启动服务）。
+| Capability | Description |
+|------------|-------------|
+| **Real-time** | WebSocket audio → Tencent Cloud ASR → harmful detection → vibration/caption alerts |
+| **Offline** | Upload recordings → speaker diarization → replay summary and AI role-play |
+| **Multi-client** | Web dashboard, live captioning, browser extension, wearable bridge (e.g. smart glasses) |
 
 ---
 
-## 功能特性
+## Product Preview
 
-### 核心能力
+| Dashboard | Website |
+|-----------|---------|
+| ![Dashboard preview](docs/images/dashboard-preview.svg) | [**→ Live website**](https://infotech-launch.vercel.app/) |
 
-- **实时有害语检测**：绝对关键词（必检）→ 语义向量召回 → LLM 筛选，[详见设计文档](docs/HARMFUL_DETECTION_DESIGN.md)
-- **腾讯云 ASR**：实时语音识别 + 录音文件识别，支持说话人分离（最多 9 人）
-- **智能反馈**：有害等级 1–5 级，振动强度/实时字幕/告警可配置
-- **复盘与演绎**：会话级摘要、关键片段高亮、单句 AI 替代表达与情景演练
-- **多端接入**：ESP32（PCM/BLE）、[浏览器扩展](browser-extension/README.md)、[PCM SDK](packages/pcm-client/README.md)、Web 上传
+Run the frontend locally for full **Dashboard** `/dashboard`, **Sessions**, **Live Listen** `/live`, **Devices**, **Review Feed**, etc. For a quick UI-only preview, open [ui-preview.html](ui-preview.html) in the repo root (no server required). See [docs/UI_PREVIEW.md](docs/UI_PREVIEW.md).
 
-### 技术亮点
+---
 
-|  |  |
+## Features
+
+### Core
+
+- **Real-time harmful-speech detection**: absolute keywords → semantic vector recall → LLM screening. [Design doc](docs/HARMFUL_DETECTION_DESIGN.md)
+- **Tencent Cloud ASR**: real-time and file-based recognition, speaker diarization (up to 9 speakers)
+- **Smart feedback**: severity 1–5, configurable vibration, live captions, alerts
+- **Review & role-play**: session summaries, highlight clips, AI alternative phrasing and scenario practice
+- **Multi-client**: ESP32 (PCM/BLE), [browser extension](browser-extension/README.md), [PCM SDK](packages/pcm-client/README.md), web upload
+
+### Tech highlights
+
+| | |
 |--|--|
-| 实时 + 离线双链路 | 实时提醒与事后精确分析并存 |
-| 可插拔检测管道 | [关键词 / 向量 / LLM 插件](backend/realtime/README_DETECTORS.md)，可扩展自定义 detector |
-| JWT + 设备绑定 | 用户认证与设备归属，支持管理员与普通用户 |
-| 腾讯云 COS | 音频存储与预签名 URL，私有读写 |
-| 可穿戴桥接 | [字幕/告警桥接方案](docs/WEARABLE_CAPTION_BRIDGE.md)，便于对接智能眼镜等 |
+| Real-time + offline | Live alerts and post-hoc analysis |
+| Pluggable detectors | [Keyword / vector / LLM](backend/realtime/README_DETECTORS.md), extensible |
+| JWT + device binding | User auth and device ownership, admin and normal users |
+| Tencent COS | Audio storage and presigned URLs, private read/write |
+| Wearable bridge | [Caption/alert bridge](docs/WEARABLE_CAPTION_BRIDGE.md) for smart glasses, etc. |
 
 ---
 
-## 系统架构
+## Architecture
 
 ```mermaid
 flowchart LR
-  subgraph 接入层
-    A[ESP32 设备]
-    B[浏览器扩展]
-    C[Web / 移动端]
+  subgraph Ingest
+    A[ESP32]
+    B[Browser extension]
+    C[Web / Mobile]
   end
 
-  subgraph 后端
+  subgraph Backend
     D[FastAPI]
     E[Ingest WS/HTTP]
-    F[腾讯云 ASR]
-    G[检测管道]
-    H[复盘/演绎]
+    F[Tencent ASR]
+    G[Detector pipeline]
+    H[Review / Role-play]
   end
 
-  subgraph 输出
-    I[实时字幕/告警]
+  subgraph Output
+    I[Live captions / Alerts]
     J[Tencent COS]
-    K[可穿戴桥接]
+    K[Wearable bridge]
   end
 
   A & B --> E
@@ -92,134 +93,155 @@ flowchart LR
   I --> K
 ```
 
-**数据流**：设备/扩展/Web → Ingest → 腾讯云 ASR → 检测管道（关键词 + 向量 + LLM）→ 实时告警 / 存储 / 复盘。
+**Flow**: Devices / extension / web → Ingest → Tencent ASR → pipeline (keywords + vectors + LLM) → live alerts / storage / review.
 
 ---
 
-## 技术栈
+## Tech Stack
 
-| 层级 | 技术 |
-|------|------|
-| **后端** | FastAPI · WebSocket · SQLModel · 腾讯云 ASR/COS · OpenRouter（LLM）· JWT |
-| **前端** | React 18 · Vite · React Router · 统一设计系统（CSS 变量 + 玻璃态） |
-| **检测** | 绝对关键词 · 语义向量（OpenAI Embedding / sentence-transformers）· LLM 筛选 |
-| **生态** | 浏览器扩展 · PCM 客户端 SDK · 可穿戴桥接脚本 |
+| Layer | Stack |
+|-------|--------|
+| **Backend** | FastAPI · WebSocket · SQLModel · Tencent ASR/COS · OpenRouter (LLM) · JWT |
+| **Frontend** | React 18 · Vite · React Router · design system (CSS variables, glassmorphism) |
+| **Detection** | Absolute keywords · semantic vectors (OpenAI / sentence-transformers) · LLM screening |
+| **Ecosystem** | Browser extension · PCM client SDK · wearable bridge scripts |
 
 ---
 
-## 快速开始
+## Quick Start
 
-### 环境要求
+### Requirements
 
-- **Python 3.10+**（后端）
-- **Node.js 18+**（前端）
-- 腾讯云账号（ASR + COS，[配置指南](backend/COS_SETUP_GUIDE.md)）
+- **Python 3.10+** (backend)
+- **Node.js 18+** (frontend)
+- Tencent Cloud account (ASR + COS). [Setup guide](backend/COS_SETUP_GUIDE.md)
 
-### 1. 克隆与依赖
+### 1. Clone and install
 
 ```bash
-git clone https://github.com/Info-Tech-org/info-tech.git
-cd info-tech
+git clone https://github.com/Info-Tech-org/Dialog-OS.git
+cd Dialog-OS
 
-# 后端
+# Backend
 cd backend && pip install -r requirements.txt && cd ..
 
-# 前端
+# Frontend
 cd frontend && npm install && cd ..
 ```
 
-### 2. 配置
+### 2. Configure (local only)
 
-复制或编辑 `backend/config/settings.py`（或使用 `.env`），至少配置：
-
-- `tencent_secret_id` / `tencent_secret_key`（腾讯云 ASR）
-- `tencent_cos_bucket` / `tencent_cos_region`（可选，用于音频存储）
-- `openrouter_api_key`（可选，用于 LLM 有害检测与复盘）
-
-### 3. 启动
+Secrets stay out of the repo. Use a local `.env` in `backend/`:
 
 ```bash
-# 终端 1：后端
+cd backend
+cp .env.example .env
+# Edit .env and set TENCENT_SECRET_ID, TENCENT_SECRET_KEY, OPENROUTER_API_KEY, etc.
+```
+
+Or run the one-shot setup script (prompts for keys and writes `backend/.env`):
+
+```bash
+python scripts/setup_local_env.py
+```
+
+See [Local development](#local-development-secrets) below.
+
+### 3. Run
+
+```bash
+# Terminal 1: backend
 cd backend && python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
-# 终端 2：前端
+# Terminal 2: frontend
 cd frontend && npm run dev
 ```
 
-访问 **http://localhost:3000**（或 Vite 实际端口）。  
-首次使用可运行 `python backend/create_admin_user.py` 创建管理员账号。
+Open **http://localhost:3000** (or the port Vite shows). Create an admin with `python backend/create_admin_user.py` if needed.
 
-### 4. 仅看 UI 预览（无需后端）
+### 4. UI-only preview
 
-在仓库根目录双击打开 [ui-preview.html](ui-preview.html)，或运行前端后访问 `/dashboard` 等页面。详见 [docs/UI_PREVIEW.md](docs/UI_PREVIEW.md)。
+Open [ui-preview.html](ui-preview.html) in the repo root, or run the frontend and go to `/dashboard`. [docs/UI_PREVIEW.md](docs/UI_PREVIEW.md).
 
 ---
 
-## 项目结构
+## Local development (secrets)
+
+All secrets are read from **environment variables** (e.g. `backend/.env`). Never commit real keys.
+
+1. **Copy template**: `cp backend/.env.example backend/.env`
+2. **Fill in** `backend/.env` with your Tencent ASR/COS and OpenRouter keys.
+3. **One-shot script** (optional): from repo root run `python scripts/setup_local_env.py`; it will prompt for each key and write `backend/.env`.
+
+Required for full local run:
+
+- `TENCENT_SECRET_ID`, `TENCENT_SECRET_KEY` (Tencent Cloud ASR)
+- `OPENROUTER_API_KEY` (LLM for harmful detection and review)
+- Optional: COS bucket/region, `EMBEDDING_*` for vector detection, `JWT_SECRET_KEY`
+
+---
+
+## Project structure
 
 ```
-info-tech/
-├── backend/              # FastAPI 后端
-│   ├── main.py           # 应用入口
-│   ├── config/           # 配置（settings.py）
-│   ├── api/              # REST：认证、会话、上传、复盘、设备等
-│   ├── realtime/         # 实时 ASR、有害检测管道（关键词/向量/LLM）
-│   ├── ingest/           # WebSocket 接入、会话管理
-│   ├── offline/          # 离线 ASR、说话人分离、COS 上传
-│   └── models/           # SQLModel 模型
-├── frontend/             # React + Vite 前端
+Dialog-OS/
+├── backend/           # FastAPI backend
+│   ├── main.py        # App entry
+│   ├── config/        # settings.py (env-based)
+│   ├── api/           # REST: auth, sessions, upload, review, devices
+│   ├── realtime/      # ASR, detector pipeline (keyword / vector / LLM)
+│   ├── ingest/        # WebSocket ingest, session management
+│   ├── offline/       # Offline ASR, diarization, COS upload
+│   └── models/        # SQLModel
+├── frontend/          # React + Vite
 │   └── src/
-│       ├── pages/        # 仪表盘、会话、上传、实时监听、设备、复盘流
-│       ├── components/  # AppLayout 等
-│       └── api/         # fetch 封装
-├── assert/               # 官网落地页与品牌资产（Vercel 部署）
-├── browser-extension/   # Chrome 扩展（无硬件入口）
-├── packages/            # PCM 客户端 SDK 等
-├── docs/                # 设计文档、预览说明、架构图
-├── tools/               # PCM 测试、可穿戴桥接脚本
-└── ui-preview.html      # 静态 UI 预览（免启动）
+│       ├── pages/     # Dashboard, sessions, upload, live, devices, review
+│       ├── components/
+│       └── api/
+├── assert/            # Website and brand assets (e.g. Vercel)
+├── browser-extension/
+├── packages/           # PCM client SDK, etc.
+├── docs/              # Design docs, UI preview
+├── tools/             # PCM tests, wearable bridge
+└── ui-preview.html    # Static UI preview (no server)
 ```
 
 ---
 
-## 文档与生态
+## Docs and ecosystem
 
-| 类型 | 链接 |
+| Type | Links |
 |------|------|
-| **官网与品牌** | [官网](https://infotech-launch.vercel.app/) · [assert/](assert/) · [OFFICIAL_SITE.md](docs/OFFICIAL_SITE.md) |
-| **检测设计** | [有害检测方案](docs/HARMFUL_DETECTION_DESIGN.md) · [检测插件说明](backend/realtime/README_DETECTORS.md) |
-| **协议与 API** | [PCM 上传](info-tech/docs/PCM_INGEST_API.md) · [WS 流式](info-tech/docs/WS_PCM_STREAMING_PROTOCOL_v1.0.md) · [BLE 绑定](info-tech/docs/BLE_BINDING_PROTOCOL.md) |
-| **扩展与 SDK** | [浏览器扩展](browser-extension/README.md) · [PCM 客户端](packages/pcm-client/README.md) · [可穿戴桥接](docs/WEARABLE_CAPTION_BRIDGE.md) |
-| **部署与运维** | [部署说明](deploy/README.md) · [COS 配置](backend/COS_SETUP_GUIDE.md) |
-| **贡献与规范** | [CONTRIBUTING.md](CONTRIBUTING.md) · [LICENSE](LICENSE) · [SECURITY](SECURITY.md) · [行为准则](CODE_OF_CONDUCT.md) |
+| **Website** | [Website](https://infotech-launch.vercel.app/) · [assert/](assert/) · [OFFICIAL_SITE.md](docs/OFFICIAL_SITE.md) |
+| **Detection** | [Harmful detection design](docs/HARMFUL_DETECTION_DESIGN.md) · [Detector plugins](backend/realtime/README_DETECTORS.md) |
+| **APIs** | [PCM ingest](info-tech/docs/PCM_INGEST_API.md) · [WS streaming](info-tech/docs/WS_PCM_STREAMING_PROTOCOL_v1.0.md) · [BLE binding](info-tech/docs/BLE_BINDING_PROTOCOL.md) |
+| **Extensions** | [Browser extension](browser-extension/README.md) · [PCM client](packages/pcm-client/README.md) · [Wearable bridge](docs/WEARABLE_CAPTION_BRIDGE.md) |
+| **Deploy** | [Deploy guide](deploy/README.md) · [COS setup](backend/COS_SETUP_GUIDE.md) |
+| **Governance** | [CONTRIBUTING.md](CONTRIBUTING.md) · [LICENSE](LICENSE) · [SECURITY](SECURITY.md) · [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) |
 
 ---
 
-## 项目规范
+## Project standards
 
-本仓库遵循开源与社区协作的常见规范，便于协作与合规使用：
-
-| 文件 | 说明 |
-|------|------|
-| [**LICENSE**](LICENSE) | MIT 许可证，允许使用、修改与再分发，需保留版权声明 |
-| [**SECURITY.md**](SECURITY.md) | 安全政策：支持版本、漏洞报告方式（私密）、非安全问题的反馈渠道 |
-| [**CODE_OF_CONDUCT.md**](CODE_OF_CONDUCT.md) | 行为准则：社区参与标准、不可接受行为、举报方式（基于 Contributor Covenant 2.0） |
-| [**CONTRIBUTING.md**](CONTRIBUTING.md) | 贡献指南：Bug 报告、功能建议、提交流程与代码规范 |
-
-对外分发或二次开发时请遵守 [LICENSE](LICENSE)；参与贡献前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 与 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)。
+| File | Purpose |
+|------|---------|
+| [**LICENSE**](LICENSE) | MIT. Use, modify, redistribute with copyright notice. |
+| [**SECURITY.md**](SECURITY.md) | Supported versions, how to report vulnerabilities privately. |
+| [**CODE_OF_CONDUCT.md**](CODE_OF_CONDUCT.md) | Community standards (Contributor Covenant 2.0). |
+| [**CONTRIBUTING.md**](CONTRIBUTING.md) | Bug reports, feature ideas, PR and code guidelines. |
 
 ---
 
-## 贡献与许可证
+## Contributing and license
 
-欢迎通过 [GitHub Issues](https://github.com/Info-Tech-org/info-tech/issues) 反馈问题，通过 [Pull Request](https://github.com/Info-Tech-org/info-tech/compare) 提交改进。请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 与 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)。
+Use [GitHub Issues](https://github.com/Info-Tech-org/Dialog-OS/issues) for bugs and [Pull Requests](https://github.com/Info-Tech-org/Dialog-OS/compare) for changes. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
-本项目采用 [MIT License](LICENSE)。安全相关问题请按 [SECURITY.md](SECURITY.md) 私密报告。
+This project is [MIT licensed](LICENSE). Security issues: see [SECURITY.md](SECURITY.md).
 
 ---
 
 <div align="center">
 
-**语镜** — 让家庭对话更安心 · [https://infotech-launch.vercel.app/](https://infotech-launch.vercel.app/)
+**Dialog-OS** — Safer family dialogue · [https://infotech-launch.vercel.app/](https://infotech-launch.vercel.app/)
 
 </div>

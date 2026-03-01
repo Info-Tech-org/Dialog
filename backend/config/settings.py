@@ -39,8 +39,8 @@ class Settings(BaseSettings):
         """Alias for public_base_url (uppercase) for backward compatibility"""
         return self.public_base_url
 
-    # OpenRouter (LLM for harmful content analysis)
-    openrouter_api_key: str = "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"
+    # OpenRouter (LLM for harmful content analysis). Set OPENROUTER_API_KEY in .env (local only).
+    openrouter_api_key: str = ""
     openrouter_model: str = "google/gemma-3-27b-it"
 
     # Embedding (semantic vector search for harmful detection)

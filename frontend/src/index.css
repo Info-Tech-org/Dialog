@@ -130,8 +130,11 @@ body.app-body-standalone {
 }
 
 .app-sidebar-logo {
-  padding: 0 var(--space-lg) var(--space-lg);
+  padding: var(--space-md) var(--space-lg) var(--space-lg);
   display: block;
+  background: #2b2a24;
+  margin: 0 var(--space-sm);
+  border-radius: var(--radius-md);
 }
 
 .app-sidebar-logo img {
@@ -139,6 +142,7 @@ body.app-body-standalone {
   width: auto;
   max-width: 160px;
   object-fit: contain;
+  display: block;
 }
 
 .app-nav {
@@ -1935,9 +1939,12 @@ body.app-body-standalone {
 }
 
 .login-logo-link {
-  display: block;
+  display: inline-block;
   text-align: center;
   margin-bottom: var(--space-md);
+  background: #2b2a24;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
 }
 
 .login-logo {
@@ -1945,6 +1952,7 @@ body.app-body-standalone {
   width: auto;
   max-width: 200px;
   object-fit: contain;
+  display: block;
 }
 
 .login-official {

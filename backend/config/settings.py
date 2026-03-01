@@ -1,9 +1,10 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
 
 
 class Settings(BaseSettings):
     """Application settings"""
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     # Database
     database_url: str = "sqlite:///./familymvp.db"
@@ -58,10 +59,5 @@ class Settings(BaseSettings):
     # Device Ingest Token (for /api/ingest/* endpoints)
     # Set this in .env to enable device authentication for PCM uploads
     device_ingest_token: Optional[str] = None
-
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-
 
 settings = Settings()

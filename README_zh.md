@@ -7,12 +7,12 @@
 <div align="center">
 
 <div style="background:#2b2a24;padding:16px 24px;border-radius:12px;display:inline-block;">
-  <a href="https://infotech-launch.vercel.app/"><img src="assert/1NF0TECH_LOGO.svg" alt="Info-Tech 语镜" width="280" /></a>
+  <a href="https://infotech-launch.vercel.app/"><img src="https://raw.githubusercontent.com/Info-Tech-org/.github/main/assert/1NF0TECH_LOGO.svg" alt="Info-Tech 语镜" width="280" /></a>
 </div>
 
 **语镜 · Dialog Safety Infra** — 家庭场景下的实时有害语检测与沟通改进平台
 
-[官网](https://infotech-launch.vercel.app/) · [功能特性](README.md#features) · [快速开始](README.md#quick-start) · [架构](README.md#architecture)
+[官网](https://infotech-launch.vercel.app/) · [宣言与品牌](https://github.com/Info-Tech-org/.github) · [功能特性](README.md#features) · [快速开始](README.md#quick-start) · [架构](README.md#architecture)
 
 </div>
 

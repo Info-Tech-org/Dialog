@@ -1,7 +1,7 @@
 <div align="center">
 
 <div style="background:#2b2a24;padding:16px 24px;border-radius:12px;display:inline-block;margin-bottom:8px;">
-  <a href="https://infotech-launch.vercel.app/"><img src="assert/1NF0TECH_LOGO.svg" alt="Dialog / Info-Tech 语镜" width="280" /></a>
+  <a href="https://infotech-launch.vercel.app/"><img src="https://raw.githubusercontent.com/Info-Tech-org/.github/main/assert/1NF0TECH_LOGO.svg" alt="Dialog / Info-Tech 语镜" width="280" /></a>
 </div>
 
 **Dialog · Dialog Safety Infra** — Real-time harmful-speech detection and communication improvement for family dialogue
@@ -13,7 +13,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-green.svg)](https://www.python.org/)
 [![React 18](https://img.shields.io/badge/React-18-61dafb?logo=react)](https://reactjs.org/)
 
-[Website](https://infotech-launch.vercel.app/) · [Features](#features) · [Quick Start](#quick-start) · [Architecture](#architecture) · [Contributing](CONTRIBUTING.md)
+[Website](https://infotech-launch.vercel.app/) · [Manifesto & brand](https://github.com/Info-Tech-org/.github) · [Features](#features) · [Quick Start](#quick-start) · [Architecture](#architecture) · [Contributing](CONTRIBUTING.md)
 
 </div>
 
@@ -200,7 +200,6 @@ Dialog/
 │       ├── pages/     # Dashboard, sessions, upload, live, devices, review
 │       ├── components/
 │       └── api/
-├── assert/            # Website and brand assets (e.g. Vercel)
 ├── browser-extension/
 ├── packages/           # PCM client SDK, etc.
 ├── docs/              # Design docs, UI preview
@@ -214,7 +213,7 @@ Dialog/
 
 | Type | Links |
 |------|------|
-| **Website** | [Website](https://infotech-launch.vercel.app/) · [assert/](assert/) · [OFFICIAL_SITE.md](docs/OFFICIAL_SITE.md) |
+| **Website & brand** | [Website](https://infotech-launch.vercel.app/) · [Manifesto & assets](https://github.com/Info-Tech-org/.github) · [OFFICIAL_SITE.md](docs/OFFICIAL_SITE.md) |
 | **Detection** | [Harmful detection design](docs/HARMFUL_DETECTION_DESIGN.md) · [Detector plugins](backend/realtime/README_DETECTORS.md) |
 | **APIs** | [PCM ingest](info-tech/docs/PCM_INGEST_API.md) · [WS streaming](info-tech/docs/WS_PCM_STREAMING_PROTOCOL_v1.0.md) · [BLE binding](info-tech/docs/BLE_BINDING_PROTOCOL.md) |
 | **Extensions** | [Browser extension](browser-extension/README.md) · [PCM client](packages/pcm-client/README.md) · [Wearable bridge](docs/WEARABLE_CAPTION_BRIDGE.md) |
